@@ -4,29 +4,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <BaseLayout
   title="Page Not Found (404)"
-  description="The page you requested could not be found on Blockprinting.org. Browse our guides or return to the homepage."
+  description="The page you requested could not be found on Blockprinting.org. Return to the table of contents or browse the glossary."
   noindex
 >
-  <section class="mx-auto max-w-xl py-16 text-center">
-    <p class="font-mono text-sm font-semibold tracking-widest text-vermilion uppercase">Error 404</p>
-    <h1 class="mt-3 text-4xl font-bold text-ink">Page Not Found</h1>
-    <p class="mt-4 text-base text-ink-muted">
-      The page you are looking for may have moved or no longer exists. Explore our hand block
-      printing guides or return home.
+  <article class="book-prose">
+    <h1 class="chapter-title">Page not found</h1>
+    <p class="chapter-lead">
+      The page you requested has moved or does not exist. Start from the{' '}
+      <a href="/">table of contents</a>, read{' '}
+      <a href="/guides/block-printing-in-ten-minutes/">Block printing in ten minutes</a>, or browse
+      the <a href="/glossary/">glossary</a>.
     </p>
-    <div class="mt-8 flex justify-center gap-4">
-      <a
-        href="/"
-        class="rounded-md bg-indigo px-5 py-2.5 text-sm font-semibold text-paper hover:bg-indigo-dark"
-      >
-        Back to Home
-      </a>
-      <a
-        href="/guides/"
-        class="rounded-md border border-border bg-paper-alt px-5 py-2.5 text-sm font-semibold text-ink hover:border-indigo hover:text-indigo"
-      >
-        Browse Guides
-      </a>
-    </div>
-  </section>
+  </article>
 </BaseLayout>

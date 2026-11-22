@@ -6,6 +6,7 @@ import {
   buildSchemaGraph,
   type BreadcrumbItem,
   type FaqItem,
+  type GlossaryTermInput,
   type HowToStepInput,
 } from '../lib/schema';
 
@@ -28,6 +29,7 @@ export interface Props {
   timeRequired?: string;
   breadcrumbs?: BreadcrumbItem[];
   faqs?: FaqItem[];
+  definedTerms?: GlossaryTermInput[];
   howTo?: {
     name: string;
     description: string;
@@ -55,6 +57,7 @@ const {
   timeRequired,
   breadcrumbs,
   faqs,
+  definedTerms,
   howTo,
 } = Astro.props;
 
@@ -76,6 +79,7 @@ const schemaGraph = buildSchemaGraph({
   dateModified: updatedAt ?? publishedAt,
   breadcrumbs,
   faqs,
+  definedTerms,
   howTo,
   article:
     ogType === 'article' && publishedAt
@@ -135,9 +139,9 @@ const speculationRules = JSON.stringify({
 <link rel="apple-touch-icon" href="/favicon.svg" />
 
 <!-- Astro 7 Self-Hosted Fonts API (Zero CLS) -->
-<Font cssVariable="--font-serif" preload />
-<Font cssVariable="--font-sans" preload />
-<Font cssVariable="--font-mono" />
+<Font cssVariable="--font-book" preload />
+<Font cssVariable="--font-display" preload />
+<Font cssVariable="--font-ui" />
 
 <!-- Open Graph -->
 <meta property="og:site_name" content={SITE.name} />

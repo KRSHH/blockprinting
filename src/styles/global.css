@@ -1,52 +1,390 @@
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
 
-@theme {
-  --font-serif: var(--font-serif, Georgia, Cambria, "Times New Roman", serif);
-  --font-sans: var(--font-sans, system-ui, -apple-system, "Segoe UI", sans-serif);
-  --font-mono: var(--font-mono, ui-monospace, SFMono-Regular, monospace);
-
-  --color-paper: #faf7f2;
-  --color-paper-alt: #f2ece1;
-  --color-ink: #1a1816;
-  --color-ink-muted: #57524a;
-  --color-indigo: #1b365d;
-  --color-indigo-dark: #122542;
-  --color-vermilion: #b5452e;
-  --color-border: #dfd6c7;
+:root {
+  --bg: #ffffff;
+  --bg-subtle: #f7f7f5;
+  --ink: #111110;
+  --ink-muted: #595955;
+  --rule: #111110;
+  --rule-light: #d6d6d2;
+  --accent: #a31c1c;
+  --accent-wash: #faf1f1;
 }
 
-@layer base {
+/* Fluid typographic scale modeled on practicaltypography.com */
+html {
+  font-size: 20px;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-book), Georgia, Cambria, "Times New Roman", serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+@media (max-width: 720px) {
   html {
-    background-color: var(--color-paper);
-    color: var(--color-ink);
-    font-family: var(--font-sans);
-    scroll-behavior: smooth;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-family: var(--font-serif);
-    letter-spacing: -0.015em;
-  }
-
-  :focus-visible {
-    outline: 2px solid var(--color-indigo);
-    outline-offset: 2px;
+    font-size: 17px;
   }
 }
 
-.prose {
-  --tw-prose-body: var(--color-ink);
-  --tw-prose-headings: var(--color-ink);
-  --tw-prose-links: var(--color-indigo);
-  --tw-prose-bold: var(--color-ink);
-  --tw-prose-quotes: var(--color-ink-muted);
-  --tw-prose-quote-borders: var(--color-vermilion);
-  --tw-prose-hr: var(--color-border);
-  --tw-prose-code: var(--color-indigo-dark);
+body {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1060px;
+  min-height: 100vh;
+  position: relative;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-variant-numeric: oldstyle-nums;
+}
+
+/* Main book layout: left spine/margin column + reading column */
+.book-shell {
+  padding: 2.75rem 2.25rem 7.5rem 13.75rem;
+}
+
+@media (max-width: 860px) {
+  .book-shell {
+    padding: 1.5rem 1.25rem 6.5rem 1.25rem;
+  }
+}
+
+/* Fixed left spine on desktop */
+.book-spine {
+  position: fixed;
+  top: 2.75rem;
+  left: max(1.5rem, calc((100vw - 1060px) / 2 + 1.5rem));
+  width: 10.5rem;
+  z-index: 20;
+}
+
+@media (max-width: 860px) {
+  .book-spine {
+    position: static;
+    width: 100%;
+    padding: 1.25rem 1.25rem 0.75rem;
+    border-bottom: 1px solid var(--rule-light);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+}
+
+.spine-title {
+  font-family: var(--font-display), "Arial Narrow", Arial, sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+}
+
+.spine-rule {
+  border: 0;
+  border-top: 4px solid var(--rule);
+  margin: 0.7rem 0;
+  width: 9.25rem;
+}
+
+/* Heavy book rules */
+.book-rule-heavy {
+  border: 0;
+  border-top: 4px solid var(--rule);
+  margin: 0;
+}
+
+.book-rule-thin {
+  border: 0;
+  border-top: 1px solid var(--rule-light);
+  margin: 0;
+}
+
+/* Chapter & page headings */
+.chapter-title {
+  font-family: var(--font-display), "Arial Narrow", Arial, sans-serif;
+  font-size: clamp(2rem, 3.6vw, 2.75rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.015em;
+  line-height: 1.05;
+  border-top: 2px solid var(--rule);
+  padding-top: 0.35rem;
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+}
+
+.chapter-lead {
+  font-size: 1.12rem;
+  line-height: 1.48;
+  color: var(--ink);
+  margin-bottom: 1.5rem;
+}
+
+/* Two-column Table of Contents on Home */
+.toc-part {
+  font-family: var(--font-book), Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-top: 1.6rem;
+  margin-bottom: 0.45rem;
+  line-height: 1.25;
+}
+
+.toc-list {
+  list-style: none;
+  margin: 0 0 1rem 0.35rem;
+  padding: 0;
+  column-count: 2;
+  column-gap: 2.25rem;
+}
+
+.toc-list--single {
+  column-count: 1;
+}
+
+@media (max-width: 640px) {
+  .toc-list {
+    column-count: 1;
+  }
+}
+
+.toc-list li {
+  break-inside: avoid;
+  margin-bottom: 0.45rem;
+  line-height: 1.28;
+}
+
+/* Links: clean ink, soft madder hover wash, crimson degree mark on external links */
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.book-prose a,
+.toc-list a,
+.toc-part a {
+  text-decoration: underline;
+  text-decoration-color: var(--rule-light);
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+
+.book-prose a:hover,
+.toc-list a:hover,
+.toc-part a:hover {
+  background-color: var(--accent-wash);
+  text-decoration-color: var(--accent);
+  color: var(--ink);
+}
+
+/* External link degree marker (Butterick's signature detail) */
+a[target="_blank"]::after {
+  content: "\FEFF°";
+  position: relative;
+  top: -0.1em;
+  margin-left: 0.08em;
+  font-size: 0.9em;
+  color: var(--accent);
+}
+
+a.xref {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.03em;
+}
+
+/* Prose body formatting (60-68ch measure) */
+.book-prose {
+  max-width: 36rem;
+}
+
+.book-prose p {
+  margin-bottom: 1.1rem;
+}
+
+.book-prose h2 {
+  font-family: var(--font-book), Georgia, serif;
+  font-size: 1.32rem;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-top: 2.25rem;
+  margin-bottom: 0.7rem;
+  border-top: 1px solid var(--rule-light);
+  padding-top: 0.65rem;
+}
+
+.book-prose h3 {
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  margin-top: 1.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.book-prose ul,
+.book-prose ol {
+  margin: 0 0 1.2rem 1.75rem;
+  padding: 0;
+}
+
+.book-prose ul {
+  list-style: disc;
+}
+
+.book-prose ol {
+  list-style: decimal;
+}
+
+.book-prose li {
+  margin-bottom: 0.55rem;
+  padding-left: 0.25rem;
+}
+
+.book-prose blockquote {
+  margin: 1.5rem 0;
+  padding: 0.85rem 1.15rem;
+  background-color: var(--bg-subtle);
+  border-top: 1px solid var(--rule-light);
+  border-bottom: 1px solid var(--rule-light);
+  font-size: 0.95rem;
+}
+
+.book-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.6rem 0;
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+}
+
+.book-prose th {
+  text-align: left;
+  font-weight: 600;
+  border-top: 2px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 0.5rem 0.6rem;
+}
+
+.book-prose td {
+  border-bottom: 1px solid var(--rule-light);
+  padding: 0.5rem 0.6rem;
+  vertical-align: top;
+}
+
+/* Reader note / editorial box (Butterick's reader-note) */
+.reader-note {
+  margin: 1.75rem 0;
+  padding: 0.95rem 1.1rem;
+  background-color: var(--bg-subtle);
+  border-top: 1px solid var(--rule-light);
+  border-bottom: 1px solid var(--rule-light);
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+
+.reader-note strong {
+  color: var(--ink);
+}
+
+/* Hanging Q. / A. outdent FAQ section (direct nod to practicaltypography.com) */
+.qa-section {
+  margin-top: 2.75rem;
+  border-top: 2px solid var(--rule);
+  padding-top: 1.25rem;
+}
+
+.qa-item {
+  margin-bottom: 1.5rem;
+  padding-left: 2.1rem;
+}
+
+.qa-q {
+  font-weight: 700;
+  line-height: 1.32;
+  margin-bottom: 0.35rem;
+  text-indent: -2.1rem;
+}
+
+.qa-q::before {
+  content: "Q.";
+  display: inline-block;
+  width: 2.1rem;
+  text-indent: 0;
+  color: var(--accent);
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-weight: 600;
+}
+
+.qa-a {
+  line-height: 1.5;
+  color: var(--ink-muted);
+  text-indent: -2.1rem;
+}
+
+.qa-a::before {
+  content: "A.";
+  display: inline-block;
+  width: 2.1rem;
+  text-indent: 0;
+  color: var(--ink);
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-weight: 600;
+}
+
+/* Bottom pinned book navigation toolbar */
+.book-toolbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--bg);
+  border-top: 1px solid var(--rule-light);
+  z-index: 30;
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: 0.78rem;
+}
+
+.book-toolbar-inner {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 0.65rem 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+}
+
+.book-toolbar a {
+  color: var(--ink-muted);
+  padding: 0.25rem 0.4rem;
+}
+
+.book-toolbar a:hover {
+  color: var(--ink);
+  background-color: var(--accent-wash);
+}
+
+/* Focus visibility */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    transition: none !important;
+  }
 }

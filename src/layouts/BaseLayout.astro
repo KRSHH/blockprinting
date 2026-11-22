@@ -3,11 +3,20 @@ import '../styles/global.css';
 import SeoHead, { type Props as SeoProps } from '../components/SeoHead.astro';
 import { SITE } from '../config/site';
 
-interface Props extends SeoProps {}
+interface NavLink {
+  label: string;
+  href: string;
+}
 
-const seoProps = Astro.props;
+interface Props extends SeoProps {
+  prev?: NavLink;
+  next?: NavLink;
+  sidenote?: string;
+}
+
+const { prev, next, sidenote, ...seoProps } = Astro.props;
 const currentPath = Astro.url.pathname;
-const year = new Date().getUTCFullYear();
+const isHome = currentPath === '/';
 ---
 
 <!doctype html>
@@ -15,70 +24,147 @@ const year = new Date().getUTCFullYear();
   <head>
     <SeoHead {...seoProps} />
   </head>
-  <body class="flex min-h-screen flex-col bg-paper text-ink antialiased">
+  <body>
     <a
       href="#main-content"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded focus:bg-indigo focus:px-4 focus:py-2 focus:text-white"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:bg-black focus:px-3 focus:py-2 focus:text-sm focus:text-white"
     >
       Skip to main content
     </a>
 
-    <header class="border-b border-border bg-paper/95 backdrop-blur-xs">
-      <div class="mx-auto flex max-w-5xl items-center justify-between px-5 py-4 sm:px-8">
-        <a href="/" class="flex items-center gap-3 font-serif text-xl font-bold text-ink">
-          <span
-            aria-hidden="true"
-            class="inline-flex h-8 w-8 items-center justify-center rounded-sm bg-indigo text-sm font-bold text-paper"
-          >
-            B
+    <!-- Fixed left book spine (desktop) / compact top bar (mobile) -->
+    <aside class="book-spine" aria-label="Book navigation">
+      <div>
+        <a href="/" class="spine-title" style="display: block;">
+          <span style="display: block; font-size: 0.92rem; font-weight: 600; color: var(--ink-muted);">
+            Jeremy Fritzhand’s
           </span>
-          <span>{SITE.name}</span>
+          <span style="display: block; font-size: 1.95rem; margin-top: 0.1rem;">Block</span>
+          <span style="display: block; font-size: 1.95rem;">Printing</span>
         </a>
+        <hr class="spine-rule hidden md:block" />
+        <p
+          class="hidden md:block"
+          style="font-family: var(--font-ui), system-ui, sans-serif; font-size: 0.72rem; line-height: 1.45; color: var(--ink-muted); margin: 0;"
+        >
+          1st edition<br />
+          Living reference
+        </p>
 
-        <nav aria-label="Primary navigation">
-          <ul class="flex items-center gap-6 text-sm font-medium">
-            {
-              SITE.nav.map((item) => {
-                const isActive =
-                  item.href === '/'
-                    ? currentPath === '/'
-                    : currentPath.startsWith(item.href);
-                return (
-                  <li>
-                    <a
-                      href={item.href}
-                      aria-current={isActive ? 'page' : undefined}
-                      class:list={[
-                        'transition-colors hover:text-indigo',
-                        isActive ? 'text-indigo underline decoration-vermilion decoration-2 underline-offset-6' : 'text-ink-muted',
-                      ]}
-                    >
-                      {item.label}
-                    </a>
-                  </li>
-                );
-              })
-            }
+        <nav
+          aria-label="Primary book links"
+          class="hidden md:block"
+          style="margin-top: 1.35rem; font-family: var(--font-ui), system-ui, sans-serif; font-size: 0.76rem; line-height: 1.75;"
+        >
+          <ul style="list-style: none; margin: 0; padding: 0;">
+            <li>
+              <a
+                href="/"
+                aria-current={isHome ? 'page' : undefined}
+                style={isHome ? 'color: var(--accent); font-weight: 600;' : 'color: var(--ink-muted);'}
+              >
+                Contents
+              </a>
+            </li>
+            <li>
+              <a
+                href="/glossary/"
+                aria-current={currentPath.startsWith('/glossary') ? 'page' : undefined}
+                style={
+                  currentPath.startsWith('/glossary')
+                    ? 'color: var(--accent); font-weight: 600;'
+                    : 'color: var(--ink-muted);'
+                }
+              >
+                Glossary
+              </a>
+            </li>
+            <li>
+              <a
+                href="/tools/yardage-calculator/"
+                aria-current={currentPath.startsWith('/tools') ? 'page' : undefined}
+                style={
+                  currentPath.startsWith('/tools')
+                    ? 'color: var(--accent); font-weight: 600;'
+                    : 'color: var(--ink-muted);'
+                }
+              >
+                Yardage calculator
+              </a>
+            </li>
+            <li>
+              <a
+                href="/about/"
+                aria-current={currentPath.startsWith('/about') ? 'page' : undefined}
+                style={
+                  currentPath.startsWith('/about')
+                    ? 'color: var(--accent); font-weight: 600;'
+                    : 'color: var(--ink-muted);'
+                }
+              >
+                About Jeremy
+              </a>
+            </li>
           </ul>
         </nav>
-      </div>
-    </header>
 
-    <main id="main-content" class="mx-auto w-full max-w-5xl flex-1 px-5 py-10 sm:px-8 sm:py-14">
+        {
+          sidenote && (
+            <div
+              class="hidden md:block"
+              style="margin-top: 2rem; padding-top: 0.75rem; border-top: 1px solid var(--rule-light); font-family: var(--font-ui), system-ui, sans-serif; font-size: 0.72rem; line-height: 1.5; color: var(--ink-muted);"
+            >
+              {sidenote}
+            </div>
+          )
+        }
+      </div>
+
+      <nav
+        aria-label="Mobile navigation"
+        class="flex items-center gap-4 md:hidden"
+        style="font-family: var(--font-ui), system-ui, sans-serif; font-size: 0.78rem;"
+      >
+        <a href="/">Contents</a>
+        <a href="/glossary/">Glossary</a>
+        <a href="/about/">About</a>
+      </nav>
+    </aside>
+
+    <!-- Main reading column -->
+    <main id="main-content" class="book-shell">
       <slot />
     </main>
 
-    <footer class="border-t border-border bg-paper-alt/60">
-      <div
-        class="mx-auto flex max-w-5xl flex-col gap-4 px-5 py-8 text-sm text-ink-muted sm:flex-row sm:items-center sm:justify-between sm:px-8"
-      >
-        <p>&copy; {year} Jeremy Fritzhand &middot; {SITE.domain}. Hand block printing field notes &amp; craft archive.</p>
-        <div class="flex flex-wrap items-center gap-5">
-          <a href="/guides/" class="hover:text-indigo hover:underline">Guides</a>
-          <a href="/about/" class="hover:text-indigo hover:underline">About</a>
-          <a href="/rss.xml" class="hover:text-indigo hover:underline">RSS</a>
-          <a href="/sitemap-index.xml" class="hover:text-indigo hover:underline">Sitemap</a>
-          <a href="/llms.txt" class="hover:text-indigo hover:underline">llms.txt</a>
+    <!-- Bottom book navigation toolbar (Butterick-inspired) -->
+    <footer class="book-toolbar" aria-label="Chapter navigation">
+      <div class="book-toolbar-inner">
+        <div style="text-align: left;">
+          {
+            prev ? (
+              <a href={prev.href}>&larr; {prev.label}</a>
+            ) : !isHome ? (
+              <a href="/">&larr; contents</a>
+            ) : (
+              <a href="/about/">about Jeremy Fritzhand</a>
+            )
+          }
+        </div>
+        <div style="text-align: center;">
+          <a href="/">contents</a>
+          <span aria-hidden="true" style="color: var(--rule-light); margin: 0 0.35rem;">|</span>
+          <a href="/glossary/">glossary</a>
+          <span aria-hidden="true" style="color: var(--rule-light); margin: 0 0.35rem;">|</span>
+          <a href="/rss.xml">rss</a>
+        </div>
+        <div style="text-align: right;">
+          {
+            next ? (
+              <a href={next.href}>{next.label} &rarr;</a>
+            ) : (
+              <a href="/guides/block-printing-in-ten-minutes/">start reading &rarr;</a>
+            )
+          }
         </div>
       </div>
     </footer>

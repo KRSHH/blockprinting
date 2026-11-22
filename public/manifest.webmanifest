@@ -1,11 +1,11 @@
 {
-  "name": "Blockprinting.org",
+  "name": "Blockprinting by Jeremy Fritzhand",
   "short_name": "Blockprinting",
-  "description": "Traditional hand block printing, carved woodblocks, natural dyes, and textile heritage.",
+  "description": "The definitive online book and technical reference on traditional hand block printing by Jeremy Fritzhand.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FAF7F2",
-  "theme_color": "#1B365D",
+  "background_color": "#FFFFFF",
+  "theme_color": "#111110",
   "icons": [
     {
       "src": "/favicon.svg",

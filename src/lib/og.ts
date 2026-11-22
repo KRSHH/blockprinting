@@ -11,18 +11,31 @@ async function loadFonts() {
   if (cachedFonts) return cachedFonts;
 
   const root = process.cwd();
-  const [interRegular, interBold, newsreaderBold] = await Promise.all([
-    readFile(path.join(root, 'node_modules/@fontsource/inter/files/inter-latin-400-normal.woff')),
-    readFile(path.join(root, 'node_modules/@fontsource/inter/files/inter-latin-700-normal.woff')),
+  const [serifRegular, serifBold, displayBold] = await Promise.all([
     readFile(
-      path.join(root, 'node_modules/@fontsource/newsreader/files/newsreader-latin-700-normal.woff')
+      path.join(
+        root,
+        'node_modules/@fontsource/source-serif-4/files/source-serif-4-latin-400-normal.woff'
+      )
+    ),
+    readFile(
+      path.join(
+        root,
+        'node_modules/@fontsource/source-serif-4/files/source-serif-4-latin-700-normal.woff'
+      )
+    ),
+    readFile(
+      path.join(
+        root,
+        'node_modules/@fontsource/archivo-narrow/files/archivo-narrow-latin-700-normal.woff'
+      )
     ),
   ]);
 
   cachedFonts = [
-    { name: 'Inter', data: interRegular, weight: 400, style: 'normal' },
-    { name: 'Inter', data: interBold, weight: 700, style: 'normal' },
-    { name: 'Newsreader', data: newsreaderBold, weight: 700, style: 'normal' },
+    { name: 'Source Serif 4', data: serifRegular, weight: 400, style: 'normal' },
+    { name: 'Source Serif 4', data: serifBold, weight: 700, style: 'normal' },
+    { name: 'Archivo Narrow', data: displayBold, weight: 700, style: 'normal' },
   ];
 
   return cachedFonts;
@@ -31,18 +44,18 @@ async function loadFonts() {
 export interface OgImageOptions {
   title: string;
   subtitle?: string;
-  eyebrow?: string;
+  section?: string;
 }
 
 export async function renderOgImagePng({
   title,
   subtitle = SITE.description,
-  eyebrow = 'BLOCKPRINTING.ORG',
+  section = 'BLOCKPRINTING.ORG',
 }: OgImageOptions): Promise<Uint8Array> {
   const fonts = await loadFonts();
 
-  const truncatedTitle = title.length > 82 ? `${title.slice(0, 79).trim()}...` : title;
-  const truncatedSub = subtitle.length > 150 ? `${subtitle.slice(0, 147).trim()}...` : subtitle;
+  const truncatedTitle = title.length > 76 ? `${title.slice(0, 73).trim()}...` : title;
+  const truncatedSub = subtitle.length > 155 ? `${subtitle.slice(0, 152).trim()}...` : subtitle;
 
   const svg = await satori(
     {
@@ -54,11 +67,10 @@ export async function renderOgImagePng({
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          padding: '64px 72px',
-          backgroundColor: '#FAF7F2',
-          color: '#1A1816',
-          border: '16px solid #1B365D',
-          fontFamily: 'Inter',
+          padding: '64px 76px',
+          backgroundColor: '#FFFFFF',
+          color: '#111110',
+          fontFamily: 'Source Serif 4',
         },
         children: [
           {
@@ -66,54 +78,44 @@ export async function renderOgImagePng({
             props: {
               style: {
                 display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
+                flexDirection: 'column',
+                gap: '14px',
               },
               children: [
                 {
                   type: 'div',
                   props: {
                     style: {
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '14px',
+                      width: '100%',
+                      height: '6px',
+                      backgroundColor: '#111110',
                     },
-                    children: [
-                      {
-                        type: 'div',
-                        props: {
-                          style: {
-                            width: '18px',
-                            height: '18px',
-                            backgroundColor: '#B5452E',
-                            borderRadius: '3px',
-                          },
-                        },
-                      },
-                      {
-                        type: 'span',
-                        props: {
-                          style: {
-                            fontSize: '20px',
-                            fontWeight: 700,
-                            letterSpacing: '0.14em',
-                            color: '#1B365D',
-                            textTransform: 'uppercase',
-                          },
-                          children: eyebrow,
-                        },
-                      },
-                    ],
                   },
                 },
                 {
-                  type: 'span',
+                  type: 'div',
                   props: {
                     style: {
-                      fontSize: '18px',
-                      color: '#57524A',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      fontFamily: 'Archivo Narrow',
+                      fontSize: '22px',
+                      fontWeight: 700,
+                      letterSpacing: '0.06em',
+                      textTransform: 'uppercase',
+                      color: '#111110',
                     },
-                    children: 'blockprinting.org',
+                    children: [
+                      { type: 'span', props: { children: section } },
+                      {
+                        type: 'span',
+                        props: {
+                          style: { color: '#A31C1C' },
+                          children: 'JEREMY FRITZHAND',
+                        },
+                      },
+                    ],
                   },
                 },
               ],
@@ -132,11 +134,12 @@ export async function renderOgImagePng({
                   type: 'div',
                   props: {
                     style: {
-                      fontFamily: 'Newsreader',
-                      fontSize: truncatedTitle.length > 52 ? '54px' : '64px',
+                      fontFamily: 'Archivo Narrow',
+                      fontSize: truncatedTitle.length > 48 ? '58px' : '68px',
                       fontWeight: 700,
-                      lineHeight: 1.12,
-                      color: '#1A1816',
+                      lineHeight: 1.04,
+                      textTransform: 'uppercase',
+                      color: '#111110',
                     },
                     children: truncatedTitle,
                   },
@@ -145,10 +148,10 @@ export async function renderOgImagePng({
                   type: 'div',
                   props: {
                     style: {
-                      fontSize: '24px',
-                      lineHeight: 1.45,
-                      color: '#57524A',
-                      maxWidth: '960px',
+                      fontSize: '25px',
+                      lineHeight: 1.42,
+                      color: '#595955',
+                      maxWidth: '980px',
                     },
                     children: truncatedSub,
                   },
@@ -163,24 +166,23 @@ export async function renderOgImagePng({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                borderTop: '2px solid #DFD6C7',
-                paddingTop: '22px',
-                fontSize: '19px',
-                color: '#1B365D',
-                fontWeight: 700,
+                borderTop: '2px solid #111110',
+                paddingTop: '18px',
+                fontSize: '20px',
+                color: '#111110',
               },
               children: [
                 {
                   type: 'span',
                   props: {
-                    children: 'By Jeremy Fritzhand · Hand Block Printing, Woodblocks & Natural Dyes',
+                    children: 'blockprinting.org — The Living Reference on Hand Block Printing',
                   },
                 },
                 {
                   type: 'span',
                   props: {
-                    style: { color: '#B5452E' },
-                    children: 'Field Notes & Guides',
+                    style: { color: '#A31C1C', fontWeight: 700 },
+                    children: '1st Edition',
                   },
                 },
               ],

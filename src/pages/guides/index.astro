@@ -2,71 +2,70 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import { estimateReadingTime, formatDate } from '../../lib/seo';
+import { SITE } from '../../config/site';
+import { estimateReadingTime } from '../../lib/seo';
 
 const guides = (await getCollection('guides', ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
+  (a, b) => a.data.order - b.data.order
 );
 
 const breadcrumbs = [
-  { name: 'Home', href: '/' },
-  { name: 'Guides', href: '/guides/' },
+  { name: 'Contents', href: '/' },
+  { name: 'All chapters', href: '/guides/' },
 ];
 ---
 
 <BaseLayout
-  title="Block Printing Guides & Field Notes"
-  description="In-depth guides by Jeremy Fritzhand on hand block printing, Bagru dabu mud-resist, natural dyes, mordants, and ethical artisan supply chains."
+  title="All Chapters — Block Printing Reference"
+  description="Complete chapter index of Blockprinting.org by Jeremy Fritzhand: woodblock carving, Bagru dabu mud-resist, natural dyes, fabric care, and ethical sourcing."
   image="/og/guides.png"
   pageType="CollectionPage"
   breadcrumbs={breadcrumbs}
+  prev={{ label: 'Contents', href: '/' }}
+  next={{ label: 'Block printing in ten minutes', href: '/guides/block-printing-in-ten-minutes/' }}
+  sidenote="All nine chapters in reading order, written by Jeremy Fritzhand."
 >
   <Breadcrumbs items={breadcrumbs} />
 
-  <header class="border-b border-border pb-8">
-    <p class="text-xs font-semibold tracking-[0.16em] text-vermilion uppercase">
-      Written by Jeremy Fritzhand
+  <article class="book-prose">
+    <h1 class="chapter-title">Complete chapter index</h1>
+    <p class="chapter-lead">
+      Read straight through from chapter one to nine, or jump directly to any technical reference.
     </p>
-    <h1 class="mt-2 text-4xl font-bold text-ink">Block Printing Guides &amp; Field Notes</h1>
-    <p class="mt-3 max-w-2xl text-base leading-relaxed text-ink-muted">
-      Practical, workshop-tested references from more than a decade working with Chhipa printers,
-      woodblock carvers, and natural dyers in Bagru, Rajasthan.
-    </p>
-  </header>
 
-  <section aria-label="Published guides" class="mt-8 grid gap-6 md:grid-cols-2">
     {
-      guides.map((guide) => {
-        const stats = estimateReadingTime(guide.body ?? '');
+      SITE.parts.map((part) => {
+        const items = guides.filter((g) => g.data.part === part.id);
+        if (!items.length) return null;
         return (
-          <article class="flex flex-col justify-between rounded-lg border border-border bg-paper p-6 transition-colors hover:border-indigo">
-            <div>
-              <p class="text-xs font-semibold tracking-wider text-vermilion uppercase">
-                {guide.data.category} &middot; {stats.minutes} min read
-              </p>
-              <h2 class="mt-2 text-2xl font-bold text-ink">
-                <a href={`/guides/${guide.id}/`} class="hover:text-indigo hover:underline">
-                  {guide.data.title}
-                </a>
-              </h2>
-              <p class="mt-3 text-sm leading-relaxed text-ink-muted">{guide.data.description}</p>
-            </div>
-            <div class="mt-5 flex flex-wrap items-center justify-between gap-2 border-t border-border/70 pt-4 text-xs text-ink-muted">
-              <span>
-                By <strong class="font-medium text-ink">{guide.data.author}</strong> &middot;{' '}
-                <time datetime={guide.data.publishedAt.toISOString()}>
-                  {formatDate(guide.data.publishedAt)}
-                </time>
-              </span>
-              <div class="flex flex-wrap gap-2">
-                {guide.data.tags.slice(0, 3).map((tag) => (
-                  <span class="rounded bg-paper-alt px-2 py-0.5 text-ink-muted">#{tag}</span>
-                ))}
-              </div>
-            </div>
-          </article>
+          <section style="margin-top: 1.75rem;">
+            <h2 style="margin-top: 1.5rem;">{part.label}</h2>
+            <ol style="list-style: none; margin: 0; padding: 0;">
+              {items.map((guide) => {
+                const stats = estimateReadingTime(guide.body ?? '');
+                return (
+                  <li style="border-bottom: 1px solid var(--rule-light); padding: 0.85rem 0; margin: 0;">
+                    <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;">
+                      <a
+                        href={`/guides/${guide.id}/`}
+                        style="font-weight: 700; font-size: 1.05rem;"
+                      >
+                        {guide.data.title}
+                      </a>
+                      <span style="font-family: var(--font-ui), system-ui, sans-serif; font-size: 0.74rem; color: var(--ink-muted); white-space: nowrap;">
+                        {stats.minutes} min
+                      </span>
+                    </div>
+                    <p style="margin: 0.3rem 0 0 0; font-size: 0.9rem; color: var(--ink-muted);">
+                      {guide.data.description}
+                    </p>
+                  </li>
+                );
+              })}
+            </ol>
+          </section>
         );
       })
     }
-  </section>
+  </article>
 </BaseLayout>

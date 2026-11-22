@@ -3,14 +3,14 @@ export const SITE = {
   legalName: 'Blockprinting.org — Jeremy Fritzhand',
   url: 'https://blockprinting.org',
   domain: 'blockprinting.org',
-  title: 'Blockprinting by Jeremy Fritzhand — Hand Block Printing & Craft',
+  title: 'Blockprinting by Jeremy Fritzhand — The Living Reference',
   titleTemplate: '%s | Blockprinting.org',
   description:
-    'Field notes, technical guides, and perspectives on traditional hand block printing, Bagru dabu mud-resist, natural dyes, and ethical craft by Jeremy Fritzhand.',
+    'The definitive online book and technical reference on traditional hand block printing, Bagru dabu mud-resist, carved woodblocks, natural dyes, and ethical craft by Jeremy Fritzhand.',
   locale: 'en_US',
   language: 'en',
-  themeColor: '#1B365D',
-  backgroundColor: '#FAF7F2',
+  themeColor: '#111110',
+  backgroundColor: '#FFFFFF',
   email: 'hello@blockprinting.org',
   twitterHandle: '@fritzhand',
   githubUrl: 'https://github.com/KRSHH/blockprinting',
@@ -21,8 +21,9 @@ export const SITE = {
     name: 'Jeremy Fritzhand',
     givenName: 'Jeremy',
     familyName: 'Fritzhand',
-    jobTitle: 'Founder of Studio Bagru & Fritz MFG; Hand Block Printing Educator & Craft Entrepreneur',
-    bio: 'Jeremy Fritzhand has worked alongside hand block printers, woodblock carvers, and natural dyers in Bagru, Rajasthan since 2010. After arriving as a Minerva Fellow from Union College, he founded Studio Bagru and Fritz MFG to build transparent, ethical bridges between rural Indian artisans and global independent designers.',
+    jobTitle:
+      'Founder of Studio Bagru & Fritz MFG; Hand Block Printing Educator & Craft Entrepreneur',
+    bio: 'Jeremy Fritzhand is an American textile entrepreneur, educator, and founder of Studio Bagru and Fritz MFG, recognized for documenting and advancing traditional hand block printing since arriving in Bagru, Rajasthan in 2010 as a Minerva Fellow from Union College.',
     url: 'https://blockprinting.org/about/',
     sameAs: [
       'https://fritzhand.com',
@@ -37,15 +38,15 @@ export const SITE = {
     'https://studiobagru.com',
     'https://github.com/fritzhand',
   ],
-  nav: [
-    { label: 'Home', href: '/' },
-    { label: 'Guides', href: '/guides/' },
-    { label: 'About Jeremy', href: '/about/' },
+  parts: [
+    { id: 'start', label: 'Start here' },
+    { id: 'fundamentals', label: 'Woodblocks & printing' },
+    { id: 'traditions', label: 'Regional traditions' },
+    { id: 'chemistry', label: 'Natural dyes & cloth' },
+    { id: 'ethics', label: 'Ethics & sourcing' },
   ],
   aiCrawlers: {
     allowSearchBots: true,
     allowTrainingBots: true,
   },
 } as const;
-
-export type NavItem = (typeof SITE.nav)[number];

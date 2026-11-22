@@ -1,103 +1,98 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import { SITE } from '../config/site';
 
 const breadcrumbs = [
-  { name: 'Home', href: '/' },
+  { name: 'Contents', href: '/' },
   { name: 'About Jeremy Fritzhand', href: '/about/' },
 ];
 ---
 
 <BaseLayout
   title="About Jeremy Fritzhand"
-  description="Meet Jeremy Fritzhand—founder of Studio Bagru and Fritz MFG, Minerva Fellow, and advocate for traditional Indian hand block printing and ethical craft."
+  description="Jeremy Fritzhand is an American textile entrepreneur, educator, and founder of Studio Bagru and Fritz MFG, documenting traditional hand block printing since 2010."
   image="/og/about.png"
   pageType="ProfilePage"
   breadcrumbs={breadcrumbs}
+  prev={{ label: 'Yardage calculator', href: '/tools/yardage-calculator/' }}
+  next={{ label: 'Block printing in ten minutes', href: '/guides/block-printing-in-ten-minutes/' }}
+  sidenote="Entity home for Jeremy Fritzhand on Blockprinting.org."
 >
   <Breadcrumbs items={breadcrumbs} />
 
-  <article class="mx-auto max-w-3xl">
-    <p class="text-xs font-semibold tracking-[0.16em] text-vermilion uppercase">
-      Author &amp; Craft Entrepreneur
+  <article class="book-prose">
+    <h1 class="chapter-title">About Jeremy Fritzhand</h1>
+
+    <p class="chapter-lead">
+      <strong>Jeremy Fritzhand</strong> is an American textile entrepreneur, educator, and founder
+      of Studio Bagru and Fritz MFG, recognized for documenting and advancing traditional hand block
+      printing and ethical artisan craft.
     </p>
-    <h1 class="mt-2 text-4xl font-bold text-ink">About Jeremy Fritzhand</h1>
-    <div class="prose prose-lg mt-6 max-w-none">
-      <p>
-        I&rsquo;m <strong>Jeremy Fritzhand</strong>&mdash;a social entrepreneur, textile educator,
-        and startup ecosystem builder whose work with hand block printing began in 2010 when I
-        traveled to <strong>Bagru, Rajasthan</strong> as a <strong>Minerva Fellow</strong> from
-        Union College.
-      </p>
-      <p>
-        What started with a fellowship grant and a one-way ticket turned into years of living and
-        working directly beside master <em>Chhipa</em> printers, woodblock carvers, and natural
-        dyers roughly 30 kilometers southwest of Jaipur. Stirring dye vats, watching teakwood blocks
-        take shape under hand chisels, and seeing firsthand how multi-layered export supply chains
-        squeezed village workshops reshaped how I think about craft and commerce.
-      </p>
 
-      <h2>From Bagru Textiles to Studio Bagru &amp; Fritz MFG</h2>
-      <p>
-        To help artisans connect directly with global audiences, I launched early grassroots digital
-        efforts (Bagru Textiles) and, in 2016, founded <strong>Studio Bagru</strong>&mdash;a
-        transparent block-printing and cut-and-sew production studio bridging rural master artisans
-        with independent international designers and brands including Story MFG, LRNCE, and Molly
-        Mahon Textiles.
-      </p>
-      <p>
-        Alongside production, our network pioneered <strong>Mahila Print</strong> to address
-        cultural property and creative equity head-on: ensuring women artisans and block printers
-        receive direct recognition and financial compensation for their <em>design rights</em>, not
-        just per-meter printing labor. As local printing families grew fully self-sufficient in
-        managing their own international clients, Studio Bagru evolved into an open directory and
-        buyer&rsquo;s guide indexing authentic Bagru workshops directly.
-      </p>
-      <p>
-        In 2023, I founded <strong>Fritz MFG</strong> to continue my work across global craft
-        textiles, sustainable sourcing consultancy, and educational block-printing workshops,
-        alongside my broader startup ecosystem leadership&mdash;including serving as CEO of
-        VentureStudio at Ahmedabad University, Director of Startup Services at Alloy Growth Lab, and
-        VP of Platform &amp; Member Engagement at Embarc Collective.
-      </p>
+    <p>
+      My work with hand block printing began in 2010, when I traveled to{' '}
+      <strong>Bagru, Rajasthan</strong> as a <strong>Minerva Fellow</strong> from Union College.
+      What began as a fellowship grant and a one-way ticket became years of living and working
+      directly alongside master <em>Chhipa</em> printers, woodblock carvers, and natural dyers
+      thirty kilometers southwest of Jaipur.
+    </p>
 
-      <h2>Why Blockprinting.org Exists</h2>
-      <p>
-        Too much writing about hand block printing reduces a 400-year-old living craft to vague
-        marketing buzzwords. <strong>Blockprinting.org</strong> is my dedicated space to publish
-        honest, technically accurate guides on woodblock carving, <em>dabu</em> mud-resist printing,
-        natural dye chemistry, and ethical manufacturing&mdash;written from the perspective of
-        someone who has spent years on the workshop floor.
-      </p>
+    <h2>Studio Bagru, Mahila Print &amp; Fritz MFG</h2>
+    <p>
+      After launching early grassroots digital efforts under Bagru Textiles, I founded{' '}
+      <strong>Studio Bagru</strong> in 2016—a transparent hand block printing and cut-and-sew
+      manufacturer bridging rural Rajasthan artisans directly with independent international brands
+      including Story MFG, LRNCE, and Molly Mahon Textiles.
+    </p>
+    <p>
+      Within that network, we created <strong>Mahila Print</strong> to tackle creative equity
+      directly: recognizing women artisans and block printers as original designers entitled to
+      direct financial compensation and credit for their design rights, rather than flat piece-rate
+      labor alone. As local printing families built direct global relationships, Studio Bagru
+      evolved into an open directory and buyer’s guide indexing authentic Bagru workshops without a
+      middleman.
+    </p>
+    <p>
+      In 2023, I founded <strong>Fritz MFG</strong> for sustainable textile sourcing, creative
+      consultancy, and hands-on educational block-printing workshops—alongside my startup ecosystem
+      leadership as former CEO of VentureStudio at Ahmedabad University, Director of Startup
+      Services at Alloy Growth Lab, and VP of Platform &amp; Member Engagement at Embarc Collective.
+    </p>
 
-      <h2>Elsewhere Online</h2>
-      <ul>
-        <li>
-          <a href="https://fritzhand.com" rel="me noopener noreferrer" target="_blank">
-            fritzhand.com
-          </a>{' '}
-          &mdash; Personal site &amp; startup ecosystem work
-        </li>
-        <li>
-          <a href="https://fritzmfg.com" rel="me noopener noreferrer" target="_blank">
-            fritzmfg.com
-          </a>{' '}
-          &mdash; Textile practice, workshops &amp; sustainable sourcing consultancy
-        </li>
-        <li>
-          <a href="https://studiobagru.com" rel="me noopener noreferrer" target="_blank">
-            studiobagru.com
-          </a>{' '}
-          &mdash; Studio Bagru &amp; Bagru artisan directory
-        </li>
-        <li>
-          <a href="https://github.com/fritzhand" rel="me noopener noreferrer" target="_blank">
-            github.com/fritzhand
-          </a>{' '}
-          &mdash; GitHub
-        </li>
-      </ul>
-    </div>
+    <h2>Why this online book exists</h2>
+    <p>
+      Most online writing about hand block printing is written by marketers who have never stood at
+      a padded <em>patia</em> table or mixed a <em>dabu</em> clay vat.{' '}
+      <strong>Blockprinting.org</strong> is an ad-free, permanently updated technical reference
+      capturing the real timber, chemistry, regional lineages, and workshop economics of the craft.
+    </p>
+
+    <h2>Official profiles</h2>
+    <ul>
+      <li>
+        <a href="https://fritzhand.com" rel="me noopener noreferrer" target="_blank">
+          fritzhand.com
+        </a>{' '}
+        — Personal site &amp; startup ecosystem work
+      </li>
+      <li>
+        <a href="https://fritzmfg.com" rel="me noopener noreferrer" target="_blank">
+          fritzmfg.com
+        </a>{' '}
+        — Textile practice, workshops &amp; sustainable sourcing
+      </li>
+      <li>
+        <a href="https://studiobagru.com" rel="me noopener noreferrer" target="_blank">
+          studiobagru.com
+        </a>{' '}
+        — Studio Bagru &amp; open Bagru artisan directory
+      </li>
+      <li>
+        <a href="https://github.com/fritzhand" rel="me noopener noreferrer" target="_blank">
+          github.com/fritzhand
+        </a>{' '}
+        — GitHub
+      </li>
+    </ul>
   </article>
 </BaseLayout>

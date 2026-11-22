@@ -2,6 +2,7 @@ import type {
   Article,
   BreadcrumbList,
   CollectionPage,
+  DefinedTermSet,
   FAQPage,
   Graph,
   HowTo,
@@ -30,6 +31,11 @@ export interface HowToStepInput {
   text: string;
 }
 
+export interface GlossaryTermInput {
+  term: string;
+  definition: string;
+}
+
 export interface SchemaPageOptions {
   pathname: string;
   title: string;
@@ -40,6 +46,7 @@ export interface SchemaPageOptions {
   dateModified?: Date;
   breadcrumbs?: BreadcrumbItem[];
   faqs?: FaqItem[];
+  definedTerms?: GlossaryTermInput[];
   howTo?: {
     name: string;
     description: string;
@@ -200,6 +207,22 @@ export function buildSchemaGraph(options: SchemaPageOptions): Graph {
       })),
     };
     graph.push(faqNode);
+  }
+
+  if (options.definedTerms && options.definedTerms.length > 0) {
+    const termSet: DefinedTermSet = {
+      '@type': 'DefinedTermSet',
+      '@id': `${canonicalUrl}#glossary`,
+      name: options.title,
+      description: options.description,
+      url: canonicalUrl,
+      hasDefinedTerm: options.definedTerms.map((item) => ({
+        '@type': 'DefinedTerm',
+        name: item.term,
+        description: item.definition,
+      })),
+    };
+    graph.push(termSet);
   }
 
   if (options.howTo && options.howTo.steps.length > 0) {

@@ -1,0 +1,170 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+
+const terms = [
+  {
+    term: 'Ajrakh',
+    definition:
+      'A 4,000-year-old double-sided resist and mordant block-printing tradition practiced by the Khatri community of Kutch (Gujarat) and Sindh, involving 14 to 16 distinct stages of washing, resist stamping, indigo dipping, and madder dyeing.',
+  },
+  {
+    term: 'Al (Manjistha / Madder)',
+    definition:
+      'Botanical roots from Rubia cordifolia or Rubia tinctorum simmered in copper vats with alum-mordanted cloth to produce washfast crimson, brick red, and terracotta tones.',
+  },
+  {
+    term: 'Bagru',
+    definition:
+      'A historic block-printing town 30 kilometers southwest of Jaipur, Rajasthan, home to the Chhipa community and famous for earthy natural dyes and dabu mud-resist textiles.',
+  },
+  {
+    term: 'Begar',
+    definition:
+      'Alum (potassium aluminum sulfate) mordant paste thickened with natural gum and tinted with fugitive red ochre so printers can see their impressions before the madder dye bath develops crimson.',
+  },
+  {
+    term: 'Burada',
+    definition:
+      'Fine dry sawdust dusted immediately over freshly stamped wet dabu clay paste to absorb surface moisture, prevent smudging, and reinforce the resist crust before indigo dipping.',
+  },
+  {
+    term: 'Buti / Buta',
+    definition:
+      'A single floral or botanical motif repeated across the body of a textile. Buti refers to smaller motifs; buta refers to larger standalone floral medallions or paisleys.',
+  },
+  {
+    term: 'Chhipa',
+    definition:
+      'The hereditary artisan community of Rajasthan (particularly Bagru and Sanganer) whose families have practiced hand block printing and natural dyeing for over four centuries.',
+  },
+  {
+    term: 'Dabu',
+    definition:
+      'Traditional Bagru mud-resist paste made from local black pond clay (kali mitti), natural gum, slaked lime, and fermented wheat binder, stamped onto cloth to block dye penetration.',
+  },
+  {
+    term: 'Datta',
+    definition:
+      'The background woodblock in a multi-color set, carved to fill the negative space surrounding the primary floral or geometric motif.',
+  },
+  {
+    term: 'Doo-Rokhi',
+    definition:
+      'A rare Sanganeri technique meaning "two-faced," in which fine motifs are hand-stamped in exact mirror registration on both sides of lightweight cotton.',
+  },
+  {
+    term: 'Gadh',
+    definition:
+      'The filler woodblock in a multi-color set, carved to stamp interior petal, leaf, or accent colors inside the rekh outline.',
+  },
+  {
+    term: 'Geru',
+    definition:
+      'Natural red ochre earth mixed in tiny quantities into clear alum paste as a temporary visual sightener so the printer can track alignment across the table.',
+  },
+  {
+    term: 'Gudh',
+    definition:
+      'Microscopic registration notches or alignment pins carved into the corners of a woodblock so the printer can align repeating motifs cleanly by eye.',
+  },
+  {
+    term: 'Harda (Myrobalan)',
+    definition:
+      'Dried fruit powder of Terminalia chebula rich in natural tannins, used to pre-treat scoured cotton so alum and iron mordants bond permanently to cellulose fibers.',
+  },
+  {
+    term: 'Jal',
+    definition:
+      'An all-over interlocking lattice or net-like botanical pattern characteristic of traditional Bagru and Jaipur block-printed yardage.',
+  },
+  {
+    term: 'Kashish',
+    definition:
+      'Ferrous sulfate mineral salt used to shift botanical yellows and reds into muted grey, olive, slate, and deep brown shades.',
+  },
+  {
+    term: 'Kunda',
+    definition:
+      'The printer’s wooden color tray fitted with a bamboo lattice (tattari) and layered wool felt (gaddi) soaked in thickened dye paste for uniform block charging.',
+  },
+  {
+    term: 'Mahila Print',
+    definition:
+      'An ethical craft initiative developed within Jeremy Fritzhand’s Bagru network recognizing women artisans as original designers with direct compensation and credit for their creative IP.',
+  },
+  {
+    term: 'Neel (Indigo)',
+    definition:
+      'Natural blue dye extracted from Indigofera tinctoria leaves and fermented in sunken alkaline vats; develops from pale sky blue to midnight navy through repeated air-oxidized dips.',
+  },
+  {
+    term: 'Patia',
+    definition:
+      'A traditional padded block-printing table layered with dense wool felt or jute matting beneath a taut cotton sheet so carved teakwood blocks transfer crisp, even pressure.',
+  },
+  {
+    term: 'Pittal',
+    definition:
+      'Fine brass strips or pins hammered into seasoned teakwood blocks by master carvers to print hairline dots and borders too delicate for timber alone.',
+  },
+  {
+    term: 'Rekh',
+    definition:
+      'The outline woodblock—always stamped first—that establishes the structural linework and repeat grid for all subsequent filler and background blocks.',
+  },
+  {
+    term: 'Saaj',
+    definition:
+      'The traditional cloth-scouring process in Bagru using fuller’s earth (multani mitti), soda ash, and castor oil to strip raw cotton of natural waxes and loom starches before printing.',
+  },
+  {
+    term: 'Syahi',
+    definition:
+      'Traditional fermented iron black dye brewed for two to three weeks from scrap iron filings, jaggery (unrefined cane sugar), and water, then thickened with natural gum.',
+  },
+];
+
+const breadcrumbs = [
+  { name: 'Contents', href: '/' },
+  { name: 'Glossary', href: '/glossary/' },
+];
+---
+
+<BaseLayout
+  title="Open Glossary of Block Printing"
+  description="Authoritative A-to-Z glossary of 24 traditional hand block printing terms by Jeremy Fritzhand: rekh, datta, gadh, dabu, saaj, harda, syahi, kunda, and more."
+  image="/og/glossary.png"
+  breadcrumbs={breadcrumbs}
+  definedTerms={terms}
+  prev={{ label: 'Ethical sourcing & artisan rights', href: '/guides/ethical-block-printing-supply-chains-and-artisan-rights/' }}
+  next={{ label: 'Yardage calculator', href: '/tools/yardage-calculator/' }}
+  sidenote="Workshop terminology compiled from Chhipa printers, block carvers, and natural dyers in Bagru, Sanganer, and Kutch."
+>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <article class="book-prose">
+    <h1 class="chapter-title">Glossary of block printing</h1>
+    <p class="chapter-lead">
+      Twenty-four foundational workshop terms used by woodblock carvers, <em>Chhipa</em> and{' '}
+      <em>Khatri</em> printers, and natural dyers across Rajasthan and Gujarat—compiled by Jeremy
+      Fritzhand.
+    </p>
+
+    <dl style="margin-top: 1.75rem; border-top: 2px solid var(--rule);">
+      {
+        terms.map((item) => (
+          <div
+            id={item.term.toLowerCase().replace(/[^a-z0-9]+/g, '-')}
+            style="border-bottom: 1px solid var(--rule-light); padding: 1rem 0;"
+          >
+            <dt style="font-weight: 700; font-size: 1.05rem; color: var(--ink);">{item.term}</dt>
+            <dd style="margin: 0.3rem 0 0 0; color: var(--ink-muted); line-height: 1.5;">
+              {item.definition}
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </article>
+</BaseLayout>

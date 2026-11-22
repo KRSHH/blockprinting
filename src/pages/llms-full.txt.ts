@@ -4,19 +4,19 @@ import { SITE } from '../config/site';
 
 export const GET: APIRoute = async () => {
   const guides = (await getCollection('guides', ({ data }) => !data.draft)).sort(
-    (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
+    (a, b) => a.data.order - b.data.order
   );
 
   const sections = guides.map((g) => {
     const faqs = g.data.faqs?.length
-      ? `\n\n### FAQs\n\n${g.data.faqs.map((f) => `**${f.question}**\n${f.answer}`).join('\n\n')}`
+      ? `\n\n### Common Questions\n\n${g.data.faqs.map((f) => `Q. ${f.question}\nA. ${f.answer}`).join('\n\n')}`
       : '';
 
     return [
       `## ${g.data.title}`,
       `Author: ${g.data.author}`,
       `URL: ${SITE.url}/guides/${g.id}/`,
-      `Category: ${g.data.category}`,
+      `Section: ${g.data.category}`,
       `Published: ${g.data.publishedAt.toISOString().slice(0, 10)}`,
       `Summary: ${g.data.description}`,
       '',

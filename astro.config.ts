@@ -17,28 +17,28 @@ export default defineConfig({
   },
   fonts: [
     {
-      name: 'Newsreader',
-      cssVariable: '--font-serif',
+      name: 'Source Serif 4',
+      cssVariable: '--font-book',
       provider: fontProviders.google(),
-      weights: [400, 500, 600, 700],
+      weights: [400, 600, 700],
       styles: ['normal', 'italic'],
       fallbacks: ['Georgia', 'Cambria', 'Times New Roman', 'serif'],
     },
     {
-      name: 'Inter',
-      cssVariable: '--font-sans',
+      name: 'Archivo Narrow',
+      cssVariable: '--font-display',
       provider: fontProviders.google(),
-      weights: [400, 500, 600, 700],
+      weights: [600, 700],
       styles: ['normal'],
-      fallbacks: ['system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
+      fallbacks: ['Arial Narrow', 'Helvetica Neue', 'Arial', 'sans-serif'],
     },
     {
-      name: 'JetBrains Mono',
-      cssVariable: '--font-mono',
+      name: 'IBM Plex Sans',
+      cssVariable: '--font-ui',
       provider: fontProviders.google(),
-      weights: [400, 500],
+      weights: [400, 500, 600],
       styles: ['normal'],
-      fallbacks: ['ui-monospace', 'SFMono-Regular', 'monospace'],
+      fallbacks: ['system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
     },
   ],
   integrations: [
@@ -58,7 +58,11 @@ export default defineConfig({
         if (item.url === 'https://blockprinting.org/') {
           item.priority = 1.0;
           item.changefreq = 'daily' as any;
-        } else if (item.url.includes('/guides/')) {
+        } else if (
+          item.url.includes('/guides/') ||
+          item.url.includes('/glossary/') ||
+          item.url.includes('/tools/')
+        ) {
           item.priority = 0.9;
           item.changefreq = 'weekly' as any;
         }

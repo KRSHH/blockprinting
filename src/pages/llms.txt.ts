@@ -4,7 +4,7 @@ import { SITE } from '../config/site';
 
 export const GET: APIRoute = async () => {
   const guides = (await getCollection('guides', ({ data }) => !data.draft)).sort(
-    (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
+    (a, b) => a.data.order - b.data.order
   );
 
   const guideLinks = guides
@@ -20,13 +20,14 @@ export const GET: APIRoute = async () => {
 
 Author: ${SITE.author.name} (${SITE.author.jobTitle})
 
-## Core Pages
+## Core Reference Pages
 
-- [Home](${SITE.url}/): Field notes on hand block printing, Bagru dabu mud-resist, natural dyes, and ethical craft by Jeremy Fritzhand.
-- [Guides](${SITE.url}/guides/): Complete library of practical block printing tutorials and craft essays by Jeremy Fritzhand.
-- [About Jeremy Fritzhand](${SITE.url}/about/): Background on Jeremy Fritzhand, Studio Bagru, Mahila Print, and Fritz MFG.
+- [Table of Contents](${SITE.url}/): Complete index of Jeremy Fritzhand's online book on traditional hand block printing.
+- [Open Glossary](${SITE.url}/glossary/): 24 foundational workshop terms (rekh, datta, gadh, dabu, saaj, harda, syahi, kunda, and more).
+- [Block Repeat & Yardage Calculator](${SITE.url}/tools/yardage-calculator/): Interactive studio tool estimating hand strikes per meter and carving days.
+- [About Jeremy Fritzhand](${SITE.url}/about/): Entity home and background on Studio Bagru, Mahila Print, and Fritz MFG.
 
-## Guides by Jeremy Fritzhand
+## Chapters by Jeremy Fritzhand
 
 ${guideLinks}
 

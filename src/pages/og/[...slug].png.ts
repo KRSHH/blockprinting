@@ -6,7 +6,7 @@ import { renderOgImagePng } from '../../lib/og';
 interface OgProps {
   title: string;
   subtitle: string;
-  eyebrow: string;
+  section: string;
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -16,18 +16,36 @@ export const getStaticPaths: GetStaticPaths = async () => {
     {
       params: { slug: 'home' },
       props: {
-        title: 'Hand Block Printing, Natural Dyes & the Makers Keeping Craft Alive',
+        title: 'Block Printing — The Living Reference',
         subtitle: SITE.description,
-        eyebrow: 'JEREMY FRITZHAND · BLOCKPRINTING.ORG',
+        section: 'BLOCKPRINTING.ORG',
       },
     },
     {
       params: { slug: 'guides' },
       props: {
-        title: 'Block Printing Guides & Field Notes',
+        title: 'Complete Chapter Index',
         subtitle:
-          'Workshop-tested references by Jeremy Fritzhand on woodblocks, Bagru dabu mud-resist, natural dyes, and ethical craft.',
-        eyebrow: 'GUIDES BY JEREMY FRITZHAND',
+          'Nine technical chapters on woodblocks, Bagru dabu mud-resist, natural dyes, fabric care, and ethical sourcing.',
+        section: 'CHAPTERS',
+      },
+    },
+    {
+      params: { slug: 'glossary' },
+      props: {
+        title: 'Open Glossary of Block Printing',
+        subtitle:
+          'Twenty-four foundational workshop terms from Bagru, Sanganer, and Kutch—rekh, datta, gadh, dabu, saaj, harda, and syahi.',
+        section: 'GLOSSARY',
+      },
+    },
+    {
+      params: { slug: 'tools' },
+      props: {
+        title: 'Block Repeat & Fabric Yardage Calculator',
+        subtitle:
+          'Calculate hand strikes per meter, carved block count, and artisan carving days for hand block printing.',
+        section: 'STUDIO TOOLS',
       },
     },
     {
@@ -36,7 +54,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
         title: 'About Jeremy Fritzhand',
         subtitle:
           'Founder of Studio Bagru and Fritz MFG—documenting traditional Indian hand block printing and ethical craft since 2010.',
-        eyebrow: 'ABOUT THE AUTHOR',
+        section: 'AUTHOR',
       },
     },
   ];
@@ -46,7 +64,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     props: {
       title: guide.data.title,
       subtitle: guide.data.description,
-      eyebrow: `${guide.data.category} · BY ${guide.data.author.toUpperCase()}`,
+      section: guide.data.category.toUpperCase(),
     },
   }));
 
@@ -54,8 +72,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const GET: APIRoute = async ({ props }) => {
-  const { title, subtitle, eyebrow } = props as OgProps;
-  const png = await renderOgImagePng({ title, subtitle, eyebrow });
+  const { title, subtitle, section } = props as OgProps;
+  const png = await renderOgImagePng({ title, subtitle, section });
 
   return new Response(Buffer.from(png), {
     headers: {

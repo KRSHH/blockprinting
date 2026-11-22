@@ -3,27 +3,28 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FaqSection from '../components/FaqSection.astro';
 import { SITE } from '../config/site';
-import { estimateReadingTime, formatDate } from '../lib/seo';
 
-const guides = (await getCollection('guides', ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
+const allGuides = (await getCollection('guides', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order
 );
+
+const guidesByPart = (partId: string) => allGuides.filter((g) => g.data.part === partId);
 
 const homeFaqs = [
   {
-    question: 'Who writes Blockprinting.org?',
+    question: 'Who wrote Blockprinting.org?',
     answer:
-      'Blockprinting.org is written by Jeremy Fritzhand, who first arrived in Bagru, Rajasthan in 2010 as a Minerva Fellow from Union College and went on to found Studio Bagru and Fritz MFG to connect traditional Indian hand block printers directly with independent designers worldwide.',
+      'Blockprinting.org is written by Jeremy Fritzhand, who arrived in Bagru, Rajasthan in 2010 as a Minerva Fellow from Union College and founded Studio Bagru and Fritz MFG to build direct, ethical partnerships between traditional Indian block printers and independent designers worldwide.',
   },
   {
-    question: 'What makes Bagru hand block printing different from Sanganeri or Ajrakh?',
+    question: 'Where should I start if I am new to hand block printing?',
     answer:
-      'Bagru is defined by its 400-year-old Chhipa tradition of earthy, natural-ground prints and dabu (mud-resist) printing with clay, lime, and sawdust. Sanganer favors delicate floral motifs on bright white cloth, while Ajrakh from Kutch is a 14-to-16-step double-sided resist-dyeing craft anchored in deep indigo and madder red.',
+      'Read Block printing in ten minutes for the five structural rules of the craft, then read the Authenticity standard to learn how to tell hand-carved woodblock cloth apart from screen-printed imitations.',
   },
   {
-    question: 'How can independent designers source hand block printed fabric ethically?',
+    question: 'How does Bagru printing differ from Sanganer and Ajrakh?',
     answer:
-      'Start by working directly with artisan-owned workshops rather than opaque export intermediaries, respect realistic production lead times around weather and sun-drying, pay fair rates for both carving and printing, and honor artisan design rights—principles developed through Studio Bagru and Mahila Print.',
+      'Bagru is defined by earthy natural-ground dyes and dabu mud-resist printing practiced by the Chhipa community; Sanganer specializes in delicate floral motifs on bright white cotton; and Ajrakh from Kutch is a 14-to-16-step double-sided resist craft anchored in deep indigo and madder red.',
   },
 ];
 ---
@@ -34,115 +35,103 @@ const homeFaqs = [
   description={SITE.description}
   image="/og/home.png"
   faqs={homeFaqs}
+  next={{ label: 'Block printing in ten minutes', href: '/guides/block-printing-in-ten-minutes/' }}
 >
-  <section class="border-b border-border pb-12">
-    <p class="text-xs font-semibold tracking-[0.18em] text-vermilion uppercase">
-      By Jeremy Fritzhand &middot; Bagru, Craft &amp; Ethical Textiles
+  <article>
+    <hr class="book-rule-heavy" />
+
+    <h1 class="sr-only">Jeremy Fritzhand’s Block Printing — Table of Contents</h1>
+
+    <p
+      class="chapter-lead"
+      style="margin-top: 1.15rem; margin-bottom: 1.35rem; max-width: 35rem;"
+    >
+      An open, ad-free technical reference on traditional hand block printing, carved teak
+      woodblocks, Bagru <em>dabu</em> mud-resist, natural dye chemistry, and ethical craft—written
+      from the workshop floor by{' '}
+      <a href="/about/" style="text-decoration: underline; text-decoration-color: var(--rule-light); text-underline-offset: 0.18em;">
+        Jeremy Fritzhand
+      </a>.
     </p>
-    <h1 class="mt-3 max-w-3xl text-4xl font-bold tracking-tight text-ink sm:text-5xl">
-      Hand Block Printing, Natural Dyes &amp; the Makers Keeping Craft Alive
-    </h1>
-    <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-muted">
-      I first arrived in Bagru, Rajasthan in 2010 as a Minerva Fellow and never really left the
-      printing table behind. After more than a decade working alongside Chhipa printers, teakwood
-      block carvers, and natural dyers through Studio Bagru and Fritz MFG, I built this archive to
-      document the real techniques, chemistry, and economics of hand block printing.
-    </p>
-    <div class="mt-7 flex flex-wrap gap-4">
-      <a
-        href="/guides/"
-        class="inline-flex items-center rounded-md bg-indigo px-5 py-2.5 text-sm font-semibold text-paper transition-colors hover:bg-indigo-dark"
-      >
-        Read the Guides
-      </a>
-      <a
-        href="/about/"
-        class="inline-flex items-center rounded-md border border-border bg-paper-alt/60 px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-indigo hover:text-indigo"
-      >
-        About Jeremy Fritzhand
-      </a>
-    </div>
-  </section>
 
-  <section aria-labelledby="pillars-heading" class="mt-12 grid gap-6 sm:grid-cols-3">
-    <h2 id="pillars-heading" class="sr-only">Core focus areas</h2>
-    <article class="rounded-lg border border-border bg-paper-alt/40 p-6">
-      <h3 class="text-xl font-bold text-ink">Workshop Craft &amp; Dabu</h3>
-      <p class="mt-2 text-sm leading-relaxed text-ink-muted">
-        First-hand breakdowns of carved teakwood <em>rekh</em>, <em>datta</em>, and <em>gadh</em>{' '}
-        blocks, Bagru mud-resist (<em>dabu</em>), and multi-color hand registration.
-      </p>
-    </article>
-    <article class="rounded-lg border border-border bg-paper-alt/40 p-6">
-      <h3 class="text-xl font-bold text-ink">Botanical Dye Chemistry</h3>
-      <p class="mt-2 text-sm leading-relaxed text-ink-muted">
-        Practical notes on <em>harda</em> pre-mordanting, fermented iron-jaggery black, alum and
-        madder reds, natural indigo vats, and guar or tamarind seed thickeners.
-      </p>
-    </article>
-    <article class="rounded-lg border border-border bg-paper-alt/40 p-6">
-      <h3 class="text-xl font-bold text-ink">Ethical Supply Chains</h3>
-      <p class="mt-2 text-sm leading-relaxed text-ink-muted">
-        Lessons from Studio Bagru, Mahila Print, and Fritz MFG on transparent sourcing, artisan
-        design rights, and building direct bridges without middlemen.
-      </p>
-    </article>
-  </section>
+    <hr class="book-rule-thin" />
 
-  <section aria-labelledby="guides-heading" class="mt-14">
-    <div class="flex items-baseline justify-between gap-4">
-      <h2 id="guides-heading" class="text-2xl font-bold text-ink sm:text-3xl">
-        Field Notes &amp; Guides
-      </h2>
-      <a href="/guides/" class="text-sm font-semibold text-indigo hover:underline">
-        View all guides &rarr;
-      </a>
-    </div>
-
-    <div class="mt-6 grid gap-6 md:grid-cols-2">
+    <!-- Direct Start Links (Butterick's iconic top two chapters) -->
+    <div style="margin-top: 1.15rem;">
       {
-        guides.map((guide) => {
-          const stats = estimateReadingTime(guide.body ?? '');
-          return (
-            <article class="flex flex-col justify-between rounded-lg border border-border bg-paper p-6 transition-colors hover:border-indigo">
-              <div>
-                <div class="flex items-center gap-3 text-xs font-semibold tracking-wider text-vermilion uppercase">
-                  <span>{guide.data.category}</span>
-                  <span aria-hidden="true" class="text-border">
-                    &bull;
-                  </span>
-                  <span class="text-ink-muted">{stats.minutes} min read</span>
-                </div>
-                <h3 class="mt-2 text-2xl font-bold text-ink">
-                  <a
-                    href={`/guides/${guide.id}/`}
-                    class="transition-colors hover:text-indigo hover:underline"
-                  >
-                    {guide.data.title}
-                  </a>
-                </h3>
-                <p class="mt-3 text-sm leading-relaxed text-ink-muted">{guide.data.description}</p>
-              </div>
-              <div class="mt-5 flex items-center justify-between border-t border-border/70 pt-4 text-xs text-ink-muted">
-                <span>
-                  By <strong class="font-medium text-ink">{guide.data.author}</strong> &middot;{' '}
-                  <time datetime={guide.data.publishedAt.toISOString()}>
-                    {formatDate(guide.data.publishedAt)}
-                  </time>
-                </span>
-                <a
-                  href={`/guides/${guide.id}/`}
-                  class="font-semibold text-indigo hover:underline"
-                >
-                  Read &rarr;
-                </a>
-              </div>
-            </article>
-          );
-        })
+        guidesByPart('start').map((guide) => (
+          <h2 class="toc-part" style="margin-top: 0.85rem; margin-bottom: 0.35rem;">
+            <a href={`/guides/${guide.id}/`}>{guide.data.shortTitle ?? guide.data.title}</a>
+          </h2>
+        ))
       }
     </div>
-  </section>
 
-  <FaqSection items={homeFaqs} />
+    <!-- Remaining Book Parts in 2-column TOC -->
+    {
+      SITE.parts
+        .filter((part) => part.id !== 'start')
+        .map((part) => {
+          const items = guidesByPart(part.id);
+          return (
+            <section>
+              <h2 class="toc-part">{part.label}</h2>
+              <ul class="toc-list">
+                {items.map((guide) => (
+                  <li>
+                    <a href={`/guides/${guide.id}/`}>{guide.data.shortTitle ?? guide.data.title}</a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          );
+        })
+    }
+
+    <!-- Reference & Studio Utilities -->
+    <section>
+      <h2 class="toc-part">Reference &amp; studio tools</h2>
+      <ul class="toc-list">
+        <li><a href="/glossary/">Glossary of 24 workshop terms</a></li>
+        <li><a href="/tools/yardage-calculator/">Block repeat &amp; yardage calculator</a></li>
+        <li><a href="/guides/">Complete chapter index</a></li>
+        <li><a href="/about/">About Jeremy Fritzhand</a></li>
+      </ul>
+    </section>
+
+    <!-- Also by Jeremy Fritzhand -->
+    <section>
+      <h2 class="toc-part">Also by Jeremy Fritzhand</h2>
+      <ul class="toc-list toc-list--single">
+        <li>
+          <a href="https://fritzmfg.com" target="_blank" rel="me noopener noreferrer">
+            Fritz MFG (textile practice, workshops &amp; sustainable sourcing)
+          </a>
+        </li>
+        <li>
+          <a href="https://studiobagru.com" target="_blank" rel="me noopener noreferrer">
+            Studio Bagru (open directory of authentic Bagru workshops)
+          </a>
+        </li>
+        <li>
+          <a href="https://fritzhand.com" target="_blank" rel="me noopener noreferrer">
+            fritzhand.com (personal site &amp; startup ecosystem leadership)
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/fritzhand" target="_blank" rel="me noopener noreferrer">
+            github.com/fritzhand
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <div
+      style="border-top: 4px solid var(--rule); margin-top: 2.25rem; padding-top: 0.45rem; font-family: var(--font-display), Arial, sans-serif; text-transform: uppercase; font-size: 1.25rem; font-weight: 700; letter-spacing: 0.02em;"
+    >
+      <a href="/about/">Independent, ad-free &amp; written from the workshop floor</a>
+    </div>
+
+    <FaqSection items={homeFaqs} />
+  </article>
 </BaseLayout>
