@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'About', href: '/about/' },
+];
+---
+
+<BaseLayout
+  title="About Blockprinting.org"
+  description="Learn about the mission of Blockprinting.org: documenting traditional hand block printing techniques, carved woodblocks, and botanical dye craft."
+  image="/og/about.png"
+  pageType="AboutPage"
+  breadcrumbs={breadcrumbs}
+>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <article class="mx-auto max-w-3xl">
+    <h1 class="text-4xl font-bold text-ink">About Blockprinting.org</h1>
+    <div class="prose prose-lg mt-6 max-w-none">
+      <p>
+        <strong>Blockprinting.org</strong> is an open educational archive dedicated to the craft,
+        materials, and living heritage of traditional hand block printing on textiles and paper.
+      </p>
+      <h2>What We Document</h2>
+      <ul>
+        <li>
+          <strong>Woodblock Carving:</strong> Timber selection, motif layout, chisel geometry, and
+          block maintenance for multi-pass color registration.
+        </li>
+        <li>
+          <strong>Natural Dyes &amp; Mordants:</strong> Washfast cellulose dyeing using alum,
+          iron, tannin, indigo, madder, and pomegranate extracts.
+        </li>
+        <li>
+          <strong>Regional Lineages:</strong> Historical and contemporary techniques from Bagru,
+          Sanganer, Kutch (Ajrakh), Farrukhabad, and global relief-printing workshops.
+        </li>
+      </ul>
+      <h2>Editorial Standards</h2>
+      <p>
+        Every guide is structured for both human makers and modern search discovery—prioritizing
+        clear process steps, accurate material terminology, and verifiable craft practices.
+      </p>
+    </div>
+  </article>
+</BaseLayout>

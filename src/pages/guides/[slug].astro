@@ -1,0 +1,132 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import FaqSection from '../../components/FaqSection.astro';
+import { estimateReadingTime, formatDate } from '../../lib/seo';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides', ({ data }) => !data.draft);
+  return guides.map((guide) => ({
+    params: { slug: guide.id },
+    props: { guide },
+  }));
+}
+
+const { guide } = Astro.props;
+const { Content, headings } = await render(guide);
+const stats = estimateReadingTime(guide.body ?? '');
+const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Guides', href: '/guides/' },
+  { name: guide.data.title, href: `/guides/${guide.id}/` },
+];
+---
+
+<BaseLayout
+  title={guide.data.title}
+  description={guide.data.description}
+  canonicalUrl={guide.data.canonicalUrl}
+  image={`/og/guides/${guide.id}.png`}
+  imageAlt={guide.data.title}
+  ogType="article"
+  publishedAt={guide.data.publishedAt}
+  updatedAt={guide.data.updatedAt}
+  author={guide.data.author}
+  section={guide.data.category}
+  tags={guide.data.tags}
+  wordCount={stats.words}
+  timeRequired={stats.isoDuration}
+  breadcrumbs={breadcrumbs}
+  faqs={guide.data.faqs}
+  howTo={
+    guide.data.howToSteps
+      ? {
+          name: guide.data.title,
+          description: guide.data.description,
+          totalTime: stats.isoDuration,
+          steps: guide.data.howToSteps,
+        }
+      : undefined
+  }
+>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <article class="mx-auto max-w-3xl">
+    <header class="border-b border-border pb-8">
+      <p class="text-xs font-semibold tracking-[0.16em] text-vermilion uppercase">
+        {guide.data.category}
+      </p>
+      <h1 class="mt-2 text-3xl font-bold tracking-tight text-ink sm:text-5xl">
+        {guide.data.title}
+      </h1>
+      <p class="mt-4 text-lg leading-relaxed text-ink-muted">{guide.data.description}</p>
+      <div class="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-ink-muted">
+        <span>By <strong class="font-medium text-ink">{guide.data.author}</strong></span>
+        <span aria-hidden="true">&bull;</span>
+        <time datetime={guide.data.publishedAt.toISOString()}>
+          {formatDate(guide.data.publishedAt)}
+        </time>
+        {
+          guide.data.updatedAt && (
+            <>
+              <span aria-hidden="true">&bull;</span>
+              <span>
+                Updated{' '}
+                <time datetime={guide.data.updatedAt.toISOString()}>
+                  {formatDate(guide.data.updatedAt)}
+                </time>
+              </span>
+            </>
+          )
+        }
+        <span aria-hidden="true">&bull;</span>
+        <span>{stats.minutes} min read ({stats.words.toLocaleString()} words)</span>
+      </div>
+    </header>
+
+    {
+      tocHeadings.length > 0 && (
+        <nav
+          aria-label="Table of contents"
+          class="my-8 rounded-lg border border-border bg-paper-alt/50 p-5"
+        >
+          <p class="text-xs font-semibold tracking-wider text-indigo uppercase">In this guide</p>
+          <ul class="mt-3 space-y-1.5 text-sm">
+            {tocHeadings.map((heading) => (
+              <li class={heading.depth === 3 ? 'pl-4' : ''}>
+                <a
+                  href={`#${heading.slug}`}
+                  class="text-ink-muted transition-colors hover:text-indigo hover:underline"
+                >
+                  {heading.text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )
+    }
+
+    <div class="prose prose-lg mt-8 max-w-none">
+      <Content />
+    </div>
+
+    {
+      guide.data.tags.length > 0 && (
+        <div class="mt-10 flex flex-wrap items-center gap-2 border-t border-border pt-6">
+          <span class="text-xs font-semibold tracking-wider text-ink-muted uppercase">Topics:</span>
+          {guide.data.tags.map((tag) => (
+            <span class="rounded-full border border-border bg-paper-alt/60 px-3 py-1 text-xs font-medium text-ink">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )
+    }
+
+    {guide.data.faqs && guide.data.faqs.length > 0 && <FaqSection items={guide.data.faqs} />}
+  </article>
+</BaseLayout>

@@ -1,0 +1,86 @@
+---
+import '../styles/global.css';
+import SeoHead, { type Props as SeoProps } from '../components/SeoHead.astro';
+import { SITE } from '../config/site';
+
+interface Props extends SeoProps {}
+
+const seoProps = Astro.props;
+const currentPath = Astro.url.pathname;
+const year = new Date().getUTCFullYear();
+---
+
+<!doctype html>
+<html lang={SITE.language}>
+  <head>
+    <SeoHead {...seoProps} />
+  </head>
+  <body class="flex min-h-screen flex-col bg-paper text-ink antialiased">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded focus:bg-indigo focus:px-4 focus:py-2 focus:text-white"
+    >
+      Skip to main content
+    </a>
+
+    <header class="border-b border-border bg-paper/95 backdrop-blur-xs">
+      <div class="mx-auto flex max-w-5xl items-center justify-between px-5 py-4 sm:px-8">
+        <a href="/" class="flex items-center gap-3 font-serif text-xl font-bold text-ink">
+          <span
+            aria-hidden="true"
+            class="inline-flex h-8 w-8 items-center justify-center rounded-sm bg-indigo text-sm font-bold text-paper"
+          >
+            B
+          </span>
+          <span>{SITE.name}</span>
+        </a>
+
+        <nav aria-label="Primary navigation">
+          <ul class="flex items-center gap-6 text-sm font-medium">
+            {
+              SITE.nav.map((item) => {
+                const isActive =
+                  item.href === '/'
+                    ? currentPath === '/'
+                    : currentPath.startsWith(item.href);
+                return (
+                  <li>
+                    <a
+                      href={item.href}
+                      aria-current={isActive ? 'page' : undefined}
+                      class:list={[
+                        'transition-colors hover:text-indigo',
+                        isActive ? 'text-indigo underline decoration-vermilion decoration-2 underline-offset-6' : 'text-ink-muted',
+                      ]}
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                );
+              })
+            }
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content" class="mx-auto w-full max-w-5xl flex-1 px-5 py-10 sm:px-8 sm:py-14">
+      <slot />
+    </main>
+
+    <footer class="border-t border-border bg-paper-alt/60">
+      <div
+        class="mx-auto flex max-w-5xl flex-col gap-4 px-5 py-8 text-sm text-ink-muted sm:flex-row sm:items-center sm:justify-between sm:px-8"
+      >
+        <p>&copy; {year} {SITE.legalName}. Preserving traditional hand block printing craft.</p>
+        <div class="flex flex-wrap items-center gap-5">
+          <a href="/guides/" class="hover:text-indigo hover:underline">Guides</a>
+          <a href="/about/" class="hover:text-indigo hover:underline">About</a>
+          <a href="/rss.xml" class="hover:text-indigo hover:underline">RSS</a>
+          <a href="/sitemap-index.xml" class="hover:text-indigo hover:underline">Sitemap</a>
+          <a href="/llms.txt" class="hover:text-indigo hover:underline">llms.txt</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

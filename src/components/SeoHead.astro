@@ -1,0 +1,178 @@
+---
+import { Font } from 'astro:assets';
+import { SITE } from '../config/site';
+import { buildAbsoluteUrl, buildCanonicalUrl, formatTitle } from '../lib/seo';
+import {
+  buildSchemaGraph,
+  type BreadcrumbItem,
+  type FaqItem,
+  type HowToStepInput,
+} from '../lib/schema';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  isHome?: boolean;
+  canonicalUrl?: string;
+  image?: string;
+  imageAlt?: string;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+  pageType?: 'WebPage' | 'CollectionPage' | 'AboutPage';
+  publishedAt?: Date;
+  updatedAt?: Date;
+  author?: string;
+  section?: string;
+  tags?: string[];
+  wordCount?: number;
+  timeRequired?: string;
+  breadcrumbs?: BreadcrumbItem[];
+  faqs?: FaqItem[];
+  howTo?: {
+    name: string;
+    description: string;
+    totalTime?: string;
+    steps: HowToStepInput[];
+  };
+}
+
+const {
+  title,
+  description = SITE.description,
+  isHome = false,
+  canonicalUrl,
+  image = SITE.defaultOgImage,
+  imageAlt,
+  ogType = 'website',
+  noindex = false,
+  pageType = 'WebPage',
+  publishedAt,
+  updatedAt,
+  author = SITE.author.name,
+  section,
+  tags = [],
+  wordCount,
+  timeRequired,
+  breadcrumbs,
+  faqs,
+  howTo,
+} = Astro.props;
+
+const resolvedTitle = formatTitle(title, isHome);
+const resolvedCanonical = canonicalUrl ?? buildCanonicalUrl(Astro.url.pathname);
+const resolvedImage = buildAbsoluteUrl(image);
+const resolvedImageAlt = imageAlt ?? resolvedTitle;
+const robotsContent = noindex
+  ? 'noindex, follow'
+  : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+
+const schemaGraph = buildSchemaGraph({
+  pathname: Astro.url.pathname,
+  title: resolvedTitle,
+  description,
+  image: resolvedImage,
+  pageType,
+  datePublished: publishedAt,
+  dateModified: updatedAt ?? publishedAt,
+  breadcrumbs,
+  faqs,
+  howTo,
+  article:
+    ogType === 'article' && publishedAt
+      ? {
+          headline: title ?? resolvedTitle,
+          description,
+          datePublished: publishedAt,
+          dateModified: updatedAt ?? publishedAt,
+          authorName: author,
+          section,
+          keywords: tags,
+          wordCount,
+          timeRequired,
+        }
+      : undefined,
+});
+
+const speculationRules = JSON.stringify({
+  prerender: [
+    {
+      where: {
+        and: [
+          { href_matches: '/*' },
+          { not: { href_matches: '/og/*' } },
+          { not: { href_matches: '/*.xml' } },
+          { not: { href_matches: '/*.txt' } },
+        ],
+      },
+      eagerness: 'moderate',
+    },
+  ],
+});
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{resolvedTitle}</title>
+<meta name="description" content={description} />
+<meta name="robots" content={robotsContent} />
+<meta name="googlebot" content={robotsContent} />
+<meta name="author" content={author} />
+<meta name="theme-color" content={SITE.themeColor} />
+<meta name="color-scheme" content="light" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Canonical & Discovery Links -->
+<link rel="canonical" href={resolvedCanonical} />
+<link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={`${SITE.name} RSS Feed`}
+  href="/rss.xml"
+/>
+<link rel="manifest" href="/manifest.webmanifest" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="apple-touch-icon" href="/favicon.svg" />
+
+<!-- Astro 7 Self-Hosted Fonts API (Zero CLS) -->
+<Font cssVariable="--font-serif" preload />
+<Font cssVariable="--font-sans" preload />
+<Font cssVariable="--font-mono" />
+
+<!-- Open Graph -->
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:locale" content={SITE.locale} />
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={resolvedCanonical} />
+<meta property="og:title" content={resolvedTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={resolvedImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={resolvedImageAlt} />
+{
+  ogType === 'article' && publishedAt && (
+    <meta property="article:published_time" content={publishedAt.toISOString()} />
+  )
+}
+{
+  ogType === 'article' && (updatedAt ?? publishedAt) && (
+    <meta property="article:modified_time" content={(updatedAt ?? publishedAt)!.toISOString()} />
+  )
+}
+{ogType === 'article' && section && <meta property="article:section" content={section} />}
+{ogType === 'article' && tags.map((tag) => <meta property="article:tag" content={tag} />)}
+
+<!-- Twitter / X Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content={SITE.twitterHandle} />
+<meta name="twitter:title" content={resolvedTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={resolvedImage} />
+<meta name="twitter:image:alt" content={resolvedImageAlt} />
+
+<!-- Schema.org @graph JSON-LD -->
+<script type="application/ld+json" set:html={JSON.stringify(schemaGraph)} />
+
+<!-- Speculation Rules API for Instant Prerendered Navigation -->
+<script type="speculationrules" set:html={speculationRules} />

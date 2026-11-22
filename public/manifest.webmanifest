@@ -1,0 +1,17 @@
+{
+  "name": "Blockprinting.org",
+  "short_name": "Blockprinting",
+  "description": "Traditional hand block printing, carved woodblocks, natural dyes, and textile heritage.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF7F2",
+  "theme_color": "#1B365D",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

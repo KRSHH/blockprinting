@@ -1,0 +1,52 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-serif: var(--font-serif, Georgia, Cambria, "Times New Roman", serif);
+  --font-sans: var(--font-sans, system-ui, -apple-system, "Segoe UI", sans-serif);
+  --font-mono: var(--font-mono, ui-monospace, SFMono-Regular, monospace);
+
+  --color-paper: #faf7f2;
+  --color-paper-alt: #f2ece1;
+  --color-ink: #1a1816;
+  --color-ink-muted: #57524a;
+  --color-indigo: #1b365d;
+  --color-indigo-dark: #122542;
+  --color-vermilion: #b5452e;
+  --color-border: #dfd6c7;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+    letter-spacing: -0.015em;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-indigo);
+    outline-offset: 2px;
+  }
+}
+
+.prose {
+  --tw-prose-body: var(--color-ink);
+  --tw-prose-headings: var(--color-ink);
+  --tw-prose-links: var(--color-indigo);
+  --tw-prose-bold: var(--color-ink);
+  --tw-prose-quotes: var(--color-ink-muted);
+  --tw-prose-quote-borders: var(--color-vermilion);
+  --tw-prose-hr: var(--color-border);
+  --tw-prose-code: var(--color-indigo-dark);
+}

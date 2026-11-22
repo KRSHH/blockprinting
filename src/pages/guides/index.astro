@@ -1,0 +1,66 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { estimateReadingTime, formatDate } from '../../lib/seo';
+
+const guides = (await getCollection('guides', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
+);
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Guides', href: '/guides/' },
+];
+---
+
+<BaseLayout
+  title="Block Printing Guides & Tutorials"
+  description="In-depth guides on traditional hand block printing, woodblock carving, natural dye recipes, mordants, fabric preparation, and studio workflows."
+  image="/og/guides.png"
+  pageType="CollectionPage"
+  breadcrumbs={breadcrumbs}
+>
+  <Breadcrumbs items={breadcrumbs} />
+
+  <header class="border-b border-border pb-8">
+    <h1 class="text-4xl font-bold text-ink">Block Printing Guides</h1>
+    <p class="mt-3 max-w-2xl text-base leading-relaxed text-ink-muted">
+      Practical, research-backed references covering every stage of hand block printing—from
+      scouring cloth and carving teakwood blocks to mixing washfast botanical dyes.
+    </p>
+  </header>
+
+  <section aria-label="Published guides" class="mt-8 grid gap-6 md:grid-cols-2">
+    {
+      guides.map((guide) => {
+        const stats = estimateReadingTime(guide.body ?? '');
+        return (
+          <article class="flex flex-col justify-between rounded-lg border border-border bg-paper p-6 transition-colors hover:border-indigo">
+            <div>
+              <p class="text-xs font-semibold tracking-wider text-vermilion uppercase">
+                {guide.data.category} &middot; {stats.minutes} min read
+              </p>
+              <h2 class="mt-2 text-2xl font-bold text-ink">
+                <a href={`/guides/${guide.id}/`} class="hover:text-indigo hover:underline">
+                  {guide.data.title}
+                </a>
+              </h2>
+              <p class="mt-3 text-sm leading-relaxed text-ink-muted">{guide.data.description}</p>
+            </div>
+            <div class="mt-5 flex flex-wrap items-center justify-between gap-2 border-t border-border/70 pt-4 text-xs text-ink-muted">
+              <time datetime={guide.data.publishedAt.toISOString()}>
+                Published {formatDate(guide.data.publishedAt)}
+              </time>
+              <div class="flex flex-wrap gap-2">
+                {guide.data.tags.slice(0, 3).map((tag) => (
+                  <span class="rounded bg-paper-alt px-2 py-0.5 text-ink-muted">#{tag}</span>
+                ))}
+              </div>
+            </div>
+          </article>
+        );
+      })
+    }
+  </section>
+</BaseLayout>

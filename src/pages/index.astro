@@ -1,0 +1,142 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FaqSection from '../components/FaqSection.astro';
+import { SITE } from '../config/site';
+import { estimateReadingTime, formatDate } from '../lib/seo';
+
+const guides = (await getCollection('guides', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
+);
+
+const homeFaqs = [
+  {
+    question: 'What is hand block printing?',
+    answer:
+      'Hand block printing is a relief textile and paper printing craft in which artisans carve motifs into seasoned hardwood blocks—such as teak or sheesham—dip the carved face into natural dye or pigment paste, and stamp repeating patterns by hand onto woven fabric.',
+  },
+  {
+    question: 'Which fabrics work best for traditional block printing?',
+    answer:
+      'Natural cellulose fibers like finely woven cotton (mulmul, cambric, voile), linen, and handloom khadi absorb natural mordants and botanical dyes most evenly, producing crisp outlines and washfast color.',
+  },
+  {
+    question: 'What is the difference between Bagru, Sanganeri, and Ajrakh block printing?',
+    answer:
+      'Bagru printing uses mud-resist (dabu) and earthy iron-alum palettes on natural grounds; Sanganeri printing is known for delicate floral motifs on bright white cloth; and Ajrakh is a double-sided resist-dyeing tradition rooted in Kutch and Sindh using deep indigo and madder red.',
+  },
+];
+---
+
+<BaseLayout
+  isHome
+  title={SITE.title}
+  description={SITE.description}
+  image="/og/home.png"
+  faqs={homeFaqs}
+>
+  <section class="border-b border-border pb-12">
+    <p class="text-xs font-semibold tracking-[0.18em] text-vermilion uppercase">
+      Craft, Heritage &amp; Technique
+    </p>
+    <h1 class="mt-3 max-w-3xl text-4xl font-bold tracking-tight text-ink sm:text-5xl">
+      The Living Archive of Traditional Hand Block Printing
+    </h1>
+    <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-muted">
+      Explore carved woodblocks, botanical dye chemistry, regional Indian &amp; global printmaking
+      lineages, and practical workshop guides—engineered for artisans, designers, and textile
+      historians.
+    </p>
+    <div class="mt-7 flex flex-wrap gap-4">
+      <a
+        href="/guides/"
+        class="inline-flex items-center rounded-md bg-indigo px-5 py-2.5 text-sm font-semibold text-paper transition-colors hover:bg-indigo-dark"
+      >
+        Explore Guides
+      </a>
+      <a
+        href="/about/"
+        class="inline-flex items-center rounded-md border border-border bg-paper-alt/60 px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-indigo hover:text-indigo"
+      >
+        About Blockprinting.org
+      </a>
+    </div>
+  </section>
+
+  <section aria-labelledby="pillars-heading" class="mt-12 grid gap-6 sm:grid-cols-3">
+    <h2 id="pillars-heading" class="sr-only">Core pillars of hand block printing</h2>
+    <article class="rounded-lg border border-border bg-paper-alt/40 p-6">
+      <h3 class="text-xl font-bold text-ink">Carved Woodblocks</h3>
+      <p class="mt-2 text-sm leading-relaxed text-ink-muted">
+        Seasoned teak and pearwood blocks hand-chiseled into outline (<em>rekh</em>), background
+        (<em>datta</em>), and filler (<em>gadh</em>) sets for multi-color registration.
+      </p>
+    </article>
+    <article class="rounded-lg border border-border bg-paper-alt/40 p-6">
+      <h3 class="text-xl font-bold text-ink">Natural Dyes &amp; Mordants</h3>
+      <p class="mt-2 text-sm leading-relaxed text-ink-muted">
+        Fermented indigo vats, madder root reds, pomegranate rind yellows, and iron-alum mordant
+        pastes thickened with guar or tamarind seed gum.
+      </p>
+    </article>
+    <article class="rounded-lg border border-border bg-paper-alt/40 p-6">
+      <h3 class="text-xl font-bold text-ink">Regional Traditions</h3>
+      <p class="mt-2 text-sm leading-relaxed text-ink-muted">
+        From Bagru mud-resist and Sanganeri florals in Rajasthan to Ajrakh in Kutch and Kalamkari
+        in Andhra Pradesh.
+      </p>
+    </article>
+  </section>
+
+  <section aria-labelledby="guides-heading" class="mt-14">
+    <div class="flex items-baseline justify-between gap-4">
+      <h2 id="guides-heading" class="text-2xl font-bold text-ink sm:text-3xl">Latest Guides</h2>
+      <a href="/guides/" class="text-sm font-semibold text-indigo hover:underline">
+        View all guides &rarr;
+      </a>
+    </div>
+
+    <div class="mt-6 grid gap-6 md:grid-cols-2">
+      {
+        guides.map((guide) => {
+          const stats = estimateReadingTime(guide.body ?? '');
+          return (
+            <article class="flex flex-col justify-between rounded-lg border border-border bg-paper p-6 transition-colors hover:border-indigo">
+              <div>
+                <div class="flex items-center gap-3 text-xs font-semibold tracking-wider text-vermilion uppercase">
+                  <span>{guide.data.category}</span>
+                  <span aria-hidden="true" class="text-border">
+                    &bull;
+                  </span>
+                  <span class="text-ink-muted">{stats.minutes} min read</span>
+                </div>
+                <h3 class="mt-2 text-2xl font-bold text-ink">
+                  <a
+                    href={`/guides/${guide.id}/`}
+                    class="transition-colors hover:text-indigo hover:underline"
+                  >
+                    {guide.data.title}
+                  </a>
+                </h3>
+                <p class="mt-3 text-sm leading-relaxed text-ink-muted">{guide.data.description}</p>
+              </div>
+              <div class="mt-5 flex items-center justify-between border-t border-border/70 pt-4 text-xs text-ink-muted">
+                <time datetime={guide.data.publishedAt.toISOString()}>
+                  {formatDate(guide.data.publishedAt)}
+                </time>
+                <a
+                  href={`/guides/${guide.id}/`}
+                  class="font-semibold text-indigo hover:underline"
+                >
+                  Read guide &rarr;
+                </a>
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+  </section>
+
+  <FaqSection items={homeFaqs} />
+</BaseLayout>
