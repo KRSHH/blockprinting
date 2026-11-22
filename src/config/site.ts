@@ -6,7 +6,7 @@ export const SITE = {
   title: 'Blockprinting by Jeremy Fritzhand — The Living Reference',
   titleTemplate: '%s | Blockprinting.org',
   description:
-    'The definitive online book and technical reference on traditional hand block printing, Bagru dabu mud-resist, carved woodblocks, natural dyes, and ethical craft by Jeremy Fritzhand.',
+    'The visual encyclopedia of hand block printing, Bagru dabu mud-resist, carved woodblocks, natural dyes, and cultural IP—by Jeremy Fritzhand.',
   locale: 'en_US',
   language: 'en',
   themeColor: '#111110',

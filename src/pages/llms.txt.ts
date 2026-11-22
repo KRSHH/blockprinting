@@ -22,7 +22,8 @@ Author: ${SITE.author.name} (${SITE.author.jobTitle})
 
 ## Core Reference Pages
 
-- [Table of Contents](${SITE.url}/): Complete index of Jeremy Fritzhand's online book on traditional hand block printing.
+- [Encyclopedia Home](${SITE.url}/): Visual encyclopedia of hand block printing, Bagru dabu mud-resist, natural dyes, and cultural IP by Jeremy Fritzhand.
+- [Photographic Archive](${SITE.url}/archive/): 16 documentary photographs from Bagru, Rajasthan (2010–2026).
 - [Open Glossary](${SITE.url}/glossary/): 24 foundational workshop terms (rekh, datta, gadh, dabu, saaj, harda, syahi, kunda, and more).
 - [Block Repeat & Yardage Calculator](${SITE.url}/tools/yardage-calculator/): Interactive studio tool estimating hand strikes per meter and carving days.
 - [About Jeremy Fritzhand](${SITE.url}/about/): Entity home and background on Studio Bagru, Mahila Print, and Fritz MFG.

@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import FaqSection from '../../components/FaqSection.astro';
 
 const breadcrumbs = [
-  { name: 'Contents', href: '/' },
+  { name: 'Home', href: '/' },
   { name: 'Yardage calculator', href: '/tools/yardage-calculator/' },
 ];
 
@@ -11,140 +12,126 @@ const faqs = [
   {
     question: 'How many hand strikes does it take to block print one meter of fabric?',
     answer:
-      'For a standard 112 cm (44-inch) wide cotton printed with a 15×15 cm teakwood block in a 3-color pattern (rekh, datta, gadh), one single meter requires roughly 150 individual hand strikes—meaning a 50-meter production run takes around 7,500 hand strikes.',
+      'For a standard 112 cm (44-inch) wide cotton printed with a 15×15 cm teakwood block in a 3-color pattern (rekh, datta, gadh), one meter requires roughly 150 to 160 individual hand strikes—meaning a 50-meter run takes around 7,500 to 8,000 strikes.',
   },
   {
     question: 'Why does multi-color hand block printing cost more per meter?',
     answer:
-      'Each additional color requires its own hand-carved woodblock, separate paste mixing, full drying time between passes, and another complete round of hand strikes across the entire yardage.',
+      'Each additional color requires its own hand-carved woodblock, separate paste mixing, drying time between passes, and another full round of hand strikes across the entire yardage.',
   },
 ];
 ---
 
 <BaseLayout
   title="Block Repeat & Fabric Yardage Calculator"
-  description="Free studio calculator by Jeremy Fritzhand: estimate woodblock repeat count, total hand strikes per meter, and dye paste volume for hand block printing."
+  description="Free interactive studio calculator by Jeremy Fritzhand: visualize block repeats across fabric width and estimate total hand strikes and carving days."
   image="/og/tools.png"
   breadcrumbs={breadcrumbs}
   faqs={faqs}
   prev={{ label: 'Glossary', href: '/glossary/' }}
-  next={{ label: 'About Jeremy Fritzhand', href: '/about/' }}
-  sidenote="Built to help independent designers understand the real human labor behind every meter of hand-printed cloth."
+  next={{ label: 'Jeremy Fritzhand', href: '/about/' }}
 >
-  <Breadcrumbs items={breadcrumbs} />
+  <article class="wrap-reading" style="padding-top: 2.5rem; padding-bottom: 5rem;">
+    <Breadcrumbs items={breadcrumbs} />
 
-  <article class="book-prose">
-    <h1 class="chapter-title">Block repeat &amp; yardage calculator</h1>
-    <p class="chapter-lead">
-      Calculate how many individual hand strikes, carved blocks, and repeat rows a hand block
-      printing run requires—based on standard Bagru and Sanganer workshop dimensions.
+    <div class="editorial-bar">
+      <span>Studio Instrument — Repeat Grid &amp; Hand-Strike Estimator</span>
+      <span>Bagru &amp; Sanganer Standards</span>
+    </div>
+
+    <h1
+      class="font-display"
+      style="font-size: clamp(2.5rem, 5.5vw, 4.4rem); font-weight: 700; margin: 1.5rem 0 0.9rem;"
+    >
+      Block repeat &amp; yardage calculator
+    </h1>
+    <p style="margin: 0 0 2.25rem; color: var(--ink-muted); max-width: 42rem; font-size: 1.05rem;">
+      Adjust fabric dimensions, teakwood block size, and color count to visualize how repeats tile
+      across one meter of cloth and calculate the true human labor behind your run.
     </p>
 
-    <form
-      id="bp-calc"
-      style="margin: 1.75rem 0; padding: 1.25rem; border-top: 2px solid var(--rule); border-bottom: 2px solid var(--rule); background: var(--bg-subtle); font-family: var(--font-ui), system-ui, sans-serif; font-size: 0.85rem;"
+    <div
+      style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; align-items: start;"
     >
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1rem;">
-        <label style="display: flex; flex-direction: column; gap: 0.3rem;">
-          <span style="font-weight: 600;">Fabric length (meters)</span>
-          <input
-            id="calc-length"
-            type="number"
-            min="1"
-            max="5000"
-            value="50"
-            style="border: 1px solid var(--rule-light); background: #fff; padding: 0.45rem 0.6rem; font-variant-numeric: tabular-nums;"
-          />
-        </label>
+      <!-- Inputs + Output Table -->
+      <form
+        id="bp-calc"
+        class="font-ui"
+        style="background: var(--surface); border: 1px solid var(--rule-light); border-top: 3px solid var(--rule); padding: 1.5rem; font-size: 0.84rem;"
+      >
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <label style="display: flex; flex-direction: column; gap: 0.3rem;">
+            <span style="font-weight: 600;">Run length (meters)</span>
+            <input id="calc-length" type="number" min="1" max="5000" value="50" style="border: 1px solid var(--rule-light); padding: 0.5rem; font-variant-numeric: tabular-nums;" />
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 0.3rem;">
+            <span style="font-weight: 600;">Fabric width (cm)</span>
+            <input id="calc-width" type="number" min="40" max="280" value="112" style="border: 1px solid var(--rule-light); padding: 0.5rem; font-variant-numeric: tabular-nums;" />
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 0.3rem;">
+            <span style="font-weight: 600;">Block width (cm)</span>
+            <input id="calc-bw" type="number" min="4" max="35" value="15" style="border: 1px solid var(--rule-light); padding: 0.5rem; font-variant-numeric: tabular-nums;" />
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 0.3rem;">
+            <span style="font-weight: 600;">Block height (cm)</span>
+            <input id="calc-bh" type="number" min="4" max="35" value="15" style="border: 1px solid var(--rule-light); padding: 0.5rem; font-variant-numeric: tabular-nums;" />
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 0.3rem; grid-column: span 2;">
+            <span style="font-weight: 600;">Colors / carved blocks in set</span>
+            <input id="calc-colors" type="number" min="1" max="10" value="3" style="border: 1px solid var(--rule-light); padding: 0.5rem; font-variant-numeric: tabular-nums;" />
+          </label>
+        </div>
 
-        <label style="display: flex; flex-direction: column; gap: 0.3rem;">
-          <span style="font-weight: 600;">Fabric width (cm)</span>
-          <input
-            id="calc-width"
-            type="number"
-            min="30"
-            max="300"
-            value="112"
-            style="border: 1px solid var(--rule-light); background: #fff; padding: 0.45rem 0.6rem; font-variant-numeric: tabular-nums;"
-          />
-        </label>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 1.5rem; font-variant-numeric: tabular-nums;">
+          <tbody>
+            <tr style="border-top: 1px solid var(--rule-light);">
+              <td style="padding: 0.6rem 0; color: var(--ink-muted);">Repeats across width</td>
+              <td id="out-across" style="padding: 0.6rem 0; text-align: right; font-weight: 700;">8</td>
+            </tr>
+            <tr style="border-top: 1px solid var(--rule-light);">
+              <td style="padding: 0.6rem 0; color: var(--ink-muted);">Hand strikes per meter</td>
+              <td id="out-per-meter" style="padding: 0.6rem 0; text-align: right; font-weight: 700;">168</td>
+            </tr>
+            <tr style="border-top: 1px solid var(--rule-light);">
+              <td style="padding: 0.6rem 0; color: var(--ink-muted);">Total hand strikes for run</td>
+              <td id="out-total" style="padding: 0.6rem 0; text-align: right; font-weight: 700; color: var(--madder);">8,400</td>
+            </tr>
+            <tr style="border-top: 1px solid var(--rule-light);">
+              <td style="padding: 0.6rem 0; color: var(--ink-muted);">Printable fabric area</td>
+              <td id="out-area" style="padding: 0.6rem 0; text-align: right; font-weight: 700;">56.0 m&sup2;</td>
+            </tr>
+            <tr style="border-top: 1px solid var(--rule-light); border-bottom: 1px solid var(--rule-light);">
+              <td style="padding: 0.6rem 0; color: var(--ink-muted);">Custom teak carving estimate</td>
+              <td id="out-carving" style="padding: 0.6rem 0; text-align: right; font-weight: 700;">9–15 days</td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
 
-        <label style="display: flex; flex-direction: column; gap: 0.3rem;">
-          <span style="font-weight: 600;">Block width (cm)</span>
-          <input
-            id="calc-bw"
-            type="number"
-            min="3"
-            max="35"
-            value="15"
-            style="border: 1px solid var(--rule-light); background: #fff; padding: 0.45rem 0.6rem; font-variant-numeric: tabular-nums;"
-          />
-        </label>
-
-        <label style="display: flex; flex-direction: column; gap: 0.3rem;">
-          <span style="font-weight: 600;">Block height (cm)</span>
-          <input
-            id="calc-bh"
-            type="number"
-            min="3"
-            max="35"
-            value="15"
-            style="border: 1px solid var(--rule-light); background: #fff; padding: 0.45rem 0.6rem; font-variant-numeric: tabular-nums;"
-          />
-        </label>
-
-        <label style="display: flex; flex-direction: column; gap: 0.3rem;">
-          <span style="font-weight: 600;">Colors / blocks in set</span>
-          <input
-            id="calc-colors"
-            type="number"
-            min="1"
-            max="12"
-            value="3"
-            style="border: 1px solid var(--rule-light); background: #fff; padding: 0.45rem 0.6rem; font-variant-numeric: tabular-nums;"
-          />
-        </label>
+      <!-- Live SVG Repeat Visualizer -->
+      <div
+        style="background: var(--obsidian); color: #fff; padding: 1.5rem; border: 1px solid var(--obsidian);"
+      >
+        <div class="font-ui" style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--muted-on-dark); margin-bottom: 0.85rem;">
+          <span>LIVE 1-METER FABRIC REPEAT MAP</span>
+          <span id="viz-dim">112 cm × 100 cm</span>
+        </div>
+        <svg
+          id="repeat-viz"
+          viewBox="0 0 320 290"
+          role="img"
+          aria-label="Live visual grid showing wooden block impressions across one meter of cotton"
+          style="width: 100%; background: #f5f0e3; display: block;"
+        ></svg>
+        <p class="font-ui" style="margin: 0.85rem 0 0; font-size: 0.75rem; color: var(--muted-on-dark);">
+          Each cell represents one carved woodblock impression per color pass. Multiply cells by
+          your color count to feel the physical rhythm of the printing table.
+        </p>
       </div>
+    </div>
 
-      <table style="margin-top: 1.5rem; margin-bottom: 0; background: #fff;">
-        <thead>
-          <tr>
-            <th>Metric</th>
-            <th>Estimate</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Repeats across fabric width</td>
-            <td id="out-across" style="font-weight: 600;">8 repeats</td>
-          </tr>
-          <tr>
-            <td>Hand strikes per meter (all colors)</td>
-            <td id="out-per-meter" style="font-weight: 600;">160 strikes</td>
-          </tr>
-          <tr>
-            <td>Total hand strikes for run</td>
-            <td id="out-total" style="font-weight: 600; color: var(--accent);">8,000 strikes</td>
-          </tr>
-          <tr>
-            <td>Total printable area</td>
-            <td id="out-area" style="font-weight: 600;">56.0 m&sup2;</td>
-          </tr>
-          <tr>
-            <td>Estimated carving effort (custom teak set)</td>
-            <td id="out-carving" style="font-weight: 600;">9–15 artisan days</td>
-          </tr>
-        </tbody>
-      </table>
-    </form>
-
-    <div class="reader-note">
-      <strong>Planning a production run?</strong> Remember to add 10–15% fabric buffer for
-      scouring shrinkage, table pinning, and test impressions. For custom natural-dye production
-      or sustainable sourcing guidance, reach Jeremy via{' '}
-      <a href="https://fritzmfg.com" target="_blank" rel="noopener noreferrer">Fritz MFG</a> or
-      browse workshops directly on{' '}
-      <a href="https://studiobagru.com" target="_blank" rel="noopener noreferrer">Studio Bagru</a>.
+    <div style="margin-top: 3rem; max-width: 44rem;">
+      <FaqSection items={faqs} />
     </div>
   </article>
 
@@ -152,27 +139,49 @@ const faqs = [
     (function () {
       const ids = ['calc-length', 'calc-width', 'calc-bw', 'calc-bh', 'calc-colors'];
       const inputs = ids.map((id) => document.getElementById(id));
+      const svg = document.getElementById('repeat-viz');
+
       function update() {
         const lengthM = Math.max(1, Number(inputs[0].value) || 1);
-        const widthCm = Math.max(30, Number(inputs[1].value) || 112);
-        const bw = Math.max(3, Number(inputs[2].value) || 15);
-        const bh = Math.max(3, Number(inputs[3].value) || 15);
+        const widthCm = Math.max(40, Number(inputs[1].value) || 112);
+        const bw = Math.max(4, Number(inputs[2].value) || 15);
+        const bh = Math.max(4, Number(inputs[3].value) || 15);
         const colors = Math.max(1, Number(inputs[4].value) || 1);
 
         const across = Math.ceil(widthCm / bw);
-        const rowsPerMeter = Math.ceil(100 / bh);
-        const strikesPerMeter = across * rowsPerMeter * colors;
+        const rows = Math.ceil(100 / bh);
+        const strikesPerMeter = across * rows * colors;
         const totalStrikes = strikesPerMeter * lengthM;
         const areaSqM = ((lengthM * widthCm) / 100).toFixed(1);
-        const minCarve = colors * 3;
-        const maxCarve = colors * 5;
 
         document.getElementById('out-across').textContent = `${across} repeats`;
         document.getElementById('out-per-meter').textContent = `${strikesPerMeter.toLocaleString()} strikes`;
         document.getElementById('out-total').textContent = `${totalStrikes.toLocaleString()} strikes`;
         document.getElementById('out-area').textContent = `${areaSqM} m²`;
-        document.getElementById('out-carving').textContent = `${minCarve}–${maxCarve} artisan days`;
+        document.getElementById('out-carving').textContent = `${colors * 3}–${colors * 5} artisan days`;
+        document.getElementById('viz-dim').textContent = `${widthCm} cm × 100 cm`;
+
+        // Draw SVG repeat map
+        const pad = 12;
+        const maxCols = Math.min(across, 16);
+        const maxRows = Math.min(rows, 14);
+        const cw = (320 - pad * 2) / maxCols;
+        const ch = (290 - pad * 2) / maxRows;
+        let markup = '';
+        for (let r = 0; r < maxRows; r++) {
+          for (let c = 0; c < maxCols; c++) {
+            const x = pad + c * cw;
+            const y = pad + r * ch;
+            const cx = x + cw / 2;
+            const cy = y + ch / 2;
+            const rad = Math.min(cw, ch) * 0.22;
+            markup += `<rect x="${x + 1}" y="${y + 1}" width="${Math.max(2, cw - 2)}" height="${Math.max(2, ch - 2)}" fill="none" stroke="#1b3a6b" stroke-width="0.9" opacity="0.65"/>`;
+            markup += `<circle cx="${cx}" cy="${cy}" r="${rad}" fill="#b3261e" opacity="0.82"/>`;
+          }
+        }
+        svg.innerHTML = markup;
       }
+
       inputs.forEach((el) => el && el.addEventListener('input', update));
       update();
     })();

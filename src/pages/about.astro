@@ -1,98 +1,222 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { PHOTOS } from '../lib/images';
 
 const breadcrumbs = [
-  { name: 'Contents', href: '/' },
-  { name: 'About Jeremy Fritzhand', href: '/about/' },
+  { name: 'Home', href: '/' },
+  { name: 'Jeremy Fritzhand', href: '/about/' },
+];
+
+const timeline = [
+  {
+    year: '2009',
+    title: 'Go and see',
+    body: 'First arrived in Bagru, Rajasthan on a term abroad from Union College (Schenectady, New York). Witnessed a 400-year-old Chhipa craft trapped inside opaque eight-middleman supply chains paying seven rupees a meter.',
+  },
+  {
+    year: '2010',
+    title: 'A one-way ticket & Bagru Textiles',
+    body: 'Returned to Bagru on a Minerva Fellowship ($10,000 and a one-way ticket). Lived beside local printers and block carvers, stirring dye vats and launching Bagru Textiles ("Know your source")—now fully owned and operated by the artisans themselves.',
+  },
+  {
+    year: '2016',
+    title: 'Studio Bagru',
+    body: 'Co-founded Studio Bagru alongside Davis Cutter and Curt Myers to open transparent direct production for more Bagru families—printing for designers and hotels across 50+ countries (including Story MFG, LRNCE, and Molly Mahon Textiles) and inviting global journalists straight to the village.',
+  },
+  {
+    year: '2018',
+    title: 'Mahila Print & Cultural IP',
+    body: 'Partnered with ten women block printers in Bagru and Monica Boța-Moisin’s Cultural Intellectual Property Rights Initiative (CIPRI) to embed Consent, Credit, and Compensation—including a 5% direct design royalty—into textile contracts.',
+  },
+  {
+    year: '2023',
+    title: 'Fritz MFG & Startup Ecosystems',
+    body: 'Founded Fritz MFG for global craft textiles, workshops, and sustainable sourcing consultancy, alongside startup ecosystem leadership as CEO of VentureStudio (Ahmedabad University), Director of Startup Services at Alloy Growth Lab, and VP of Platform & Member Engagement at Embarc Collective.',
+  },
+  {
+    year: '2026',
+    title: 'Open Index & Blockprinting.org',
+    body: 'Studio Bagru shipped its last order and became a permanent open artisan index because Bagru families now serve international clients directly. Blockprinting.org carries the full technical encyclopedia forward—ad-free and permanently open.',
+  },
 ];
 ---
 
 <BaseLayout
-  title="About Jeremy Fritzhand"
-  description="Jeremy Fritzhand is an American textile entrepreneur, educator, and founder of Studio Bagru and Fritz MFG, documenting traditional hand block printing since 2010."
+  title="Jeremy Fritzhand — Author, Studio Bagru & Fritz MFG"
+  description="Jeremy Fritzhand is an American textile entrepreneur, educator, and founder of Studio Bagru and Fritz MFG, documenting traditional hand block printing since 2009."
   image="/og/about.png"
   pageType="ProfilePage"
   breadcrumbs={breadcrumbs}
   prev={{ label: 'Yardage calculator', href: '/tools/yardage-calculator/' }}
   next={{ label: 'Block printing in ten minutes', href: '/guides/block-printing-in-ten-minutes/' }}
-  sidenote="Entity home for Jeremy Fritzhand on Blockprinting.org."
 >
-  <Breadcrumbs items={breadcrumbs} />
+  <article class="wrap-reading" style="padding-top: 2.5rem; padding-bottom: 5rem;">
+    <Breadcrumbs items={breadcrumbs} />
 
-  <article class="book-prose">
-    <h1 class="chapter-title">About Jeremy Fritzhand</h1>
+    <div class="editorial-bar">
+      <span>Author &amp; Entity Home — Jeremy Fritzhand</span>
+      <span>Bagru · Ahmedabad · Tampa</span>
+    </div>
 
-    <p class="chapter-lead">
-      <strong>Jeremy Fritzhand</strong> is an American textile entrepreneur, educator, and founder
-      of Studio Bagru and Fritz MFG, recognized for documenting and advancing traditional hand block
-      printing and ethical artisan craft.
-    </p>
+    <div
+      style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 3rem; align-items: start; margin-top: 2rem;"
+    >
+      <div>
+        <h1
+          class="font-display"
+          style="font-size: clamp(2.8rem, 6vw, 4.8rem); font-weight: 700; margin: 0;"
+        >
+          Jeremy Fritzhand
+        </h1>
+        <p style="margin-top: 1.25rem; font-size: 1.15rem; line-height: 1.55;">
+          <strong>Jeremy Fritzhand</strong> is an American textile entrepreneur, educator, and
+          founder of Studio Bagru and Fritz MFG, recognized for documenting and advancing
+          traditional hand block printing and ethical artisan craft.
+        </p>
+        <p style="color: var(--ink-muted);">
+          Featured across international design and business press—including <em>The New York Times</em>,{' '}
+          <em>Financial Times</em>, <em>The Washington Post</em>, <em>Forbes</em>, and{' '}
+          <em>National Geographic</em>—his work bridges rural Indian craft clusters with modern
+          design, open documentation, and cultural intellectual property.
+        </p>
+      </div>
 
-    <p>
-      My work with hand block printing began in 2010, when I traveled to{' '}
-      <strong>Bagru, Rajasthan</strong> as a <strong>Minerva Fellow</strong> from Union College.
-      What began as a fellowship grant and a one-way ticket became years of living and working
-      directly alongside master <em>Chhipa</em> printers, woodblock carvers, and natural dyers
-      thirty kilometers southwest of Jaipur.
-    </p>
+      <figure style="margin: 0; border: 1px solid var(--rule-light); background: var(--surface); padding: 0.75rem;">
+        <Image
+          src={PHOTOS.jeremy2026}
+          alt="Portrait of Jeremy Fritzhand, founder of Studio Bagru and Fritz MFG"
+          width={640}
+          quality={88}
+          style="width: 100%; aspect-ratio: 4 / 4; object-fit: cover;"
+        />
+        <figcaption class="font-ui" style="margin-top: 0.6rem; font-size: 0.74rem; color: var(--ink-muted);">
+          Jeremy Fritzhand · Founder of Studio Bagru &amp; Fritz MFG
+        </figcaption>
+      </figure>
+    </div>
 
-    <h2>Studio Bagru, Mahila Print &amp; Fritz MFG</h2>
-    <p>
-      After launching early grassroots digital efforts under Bagru Textiles, I founded{' '}
-      <strong>Studio Bagru</strong> in 2016—a transparent hand block printing and cut-and-sew
-      manufacturer bridging rural Rajasthan artisans directly with independent international brands
-      including Story MFG, LRNCE, and Molly Mahon Textiles.
-    </p>
-    <p>
-      Within that network, we created <strong>Mahila Print</strong> to tackle creative equity
-      directly: recognizing women artisans and block printers as original designers entitled to
-      direct financial compensation and credit for their design rights, rather than flat piece-rate
-      labor alone. As local printing families built direct global relationships, Studio Bagru
-      evolved into an open directory and buyer’s guide indexing authentic Bagru workshops without a
-      middleman.
-    </p>
-    <p>
-      In 2023, I founded <strong>Fritz MFG</strong> for sustainable textile sourcing, creative
-      consultancy, and hands-on educational block-printing workshops—alongside my startup ecosystem
-      leadership as former CEO of VentureStudio at Ahmedabad University, Director of Startup
-      Services at Alloy Growth Lab, and VP of Platform &amp; Member Engagement at Embarc Collective.
-    </p>
+    <!-- 2010 Field Photographs Triptych -->
+    <section style="margin-top: 3.5rem;">
+      <div class="editorial-bar">
+        <span>Field photographs — Bagru, Rajasthan (2010)</span>
+        <span>Minerva Fellowship Archive</span>
+      </div>
 
-    <h2>Why this online book exists</h2>
-    <p>
-      Most online writing about hand block printing is written by marketers who have never stood at
-      a padded <em>patia</em> table or mixed a <em>dabu</em> clay vat.{' '}
-      <strong>Blockprinting.org</strong> is an ad-free, permanently updated technical reference
-      capturing the real timber, chemistry, regional lineages, and workshop economics of the craft.
-    </p>
+      <div
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1.25rem;"
+      >
+        <figure style="margin: 0;">
+          <div class="plate-media" style="aspect-ratio: 4 / 3; border: 1px solid var(--rule-light);">
+            <Image
+              src={PHOTOS.jeremyCarver2010}
+              alt="Jeremy Fritzhand standing with a master woodblock carver in front of shelves of teakwood blocks in 2010"
+              width={600}
+              quality={84}
+            />
+          </div>
+          <figcaption class="font-ui" style="margin-top: 0.4rem; font-size: 0.74rem; color: var(--ink-muted);">
+            With a master block carver, 2010
+          </figcaption>
+        </figure>
 
-    <h2>Official profiles</h2>
-    <ul>
-      <li>
-        <a href="https://fritzhand.com" rel="me noopener noreferrer" target="_blank">
-          fritzhand.com
-        </a>{' '}
-        — Personal site &amp; startup ecosystem work
-      </li>
-      <li>
-        <a href="https://fritzmfg.com" rel="me noopener noreferrer" target="_blank">
-          fritzmfg.com
-        </a>{' '}
-        — Textile practice, workshops &amp; sustainable sourcing
-      </li>
-      <li>
-        <a href="https://studiobagru.com" rel="me noopener noreferrer" target="_blank">
-          studiobagru.com
-        </a>{' '}
-        — Studio Bagru &amp; open Bagru artisan directory
-      </li>
-      <li>
-        <a href="https://github.com/fritzhand" rel="me noopener noreferrer" target="_blank">
-          github.com/fritzhand
-        </a>{' '}
-        — GitHub
-      </li>
-    </ul>
+        <figure style="margin: 0;">
+          <div class="plate-media" style="aspect-ratio: 4 / 3; border: 1px solid var(--rule-light);">
+            <Image
+              src={PHOTOS.jeremyDye2010}
+              alt="Jeremy Fritzhand stirring a copper natural dye cauldron in Bagru in 2010"
+              width={600}
+              quality={84}
+            />
+          </div>
+          <figcaption class="font-ui" style="margin-top: 0.4rem; font-size: 0.74rem; color: var(--ink-muted);">
+            Stirring the copper dye cauldron, 2010
+          </figcaption>
+        </figure>
+
+        <figure style="margin: 0;">
+          <div class="plate-media" style="aspect-ratio: 4 / 3; border: 1px solid var(--rule-light);">
+            <Image
+              src={PHOTOS.jeremyField2010}
+              alt="Jeremy Fritzhand with a bicycle carrying freshly dyed indigo dabu cloth across Bagru in 2010"
+              width={600}
+              quality={84}
+            />
+          </div>
+          <figcaption class="font-ui" style="margin-top: 0.4rem; font-size: 0.74rem; color: var(--ink-muted);">
+            Indigo dabu cloth on the drying ground, 2010
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Chronological Timeline -->
+    <section style="margin-top: 4rem;">
+      <div class="editorial-bar">
+        <span>Chronology — Sixteen years in craft &amp; entrepreneurship</span>
+        <span>2009 — 2026</span>
+      </div>
+
+      <ol style="list-style: none; margin: 1.5rem 0 0; padding: 0;">
+        {
+          timeline.map((item) => (
+            <li
+              style="display: grid; grid-template-columns: 90px minmax(0, 1fr); gap: 1.5rem; padding: 1.35rem 0; border-bottom: 1px solid var(--rule-light); align-items: baseline;"
+            >
+              <span
+                class="font-display"
+                style="font-size: 1.6rem; font-weight: 700; color: var(--madder);"
+              >
+                {item.year}
+              </span>
+              <div>
+                <h2 style="font-family: var(--font-book), Georgia, serif; font-size: 1.2rem; font-weight: 700; margin: 0 0 0.4rem;">
+                  {item.title}
+                </h2>
+                <p style="margin: 0; color: var(--ink-muted); max-width: 40rem;">{item.body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <!-- Official Links -->
+    <section style="margin-top: 3.5rem;">
+      <div class="editorial-bar">
+        <span>Verified profiles &amp; ventures</span>
+        <span>Direct links</span>
+      </div>
+      <div
+        class="font-ui"
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1.25rem; font-size: 0.85rem;"
+      >
+        <a href="https://studiobagru.com" target="_blank" rel="me noopener noreferrer" class="specimen-plate">
+          <strong>Studio Bagru</strong>
+          <span class="plate-muted" style="margin-top: 0.35rem; font-size: 0.78rem;">
+            Open artisan directory &amp; craft publication
+          </span>
+        </a>
+        <a href="https://fritzmfg.com" target="_blank" rel="me noopener noreferrer" class="specimen-plate">
+          <strong>Fritz MFG</strong>
+          <span class="plate-muted" style="margin-top: 0.35rem; font-size: 0.78rem;">
+            Sustainable textile sourcing &amp; workshops
+          </span>
+        </a>
+        <a href="https://fritzhand.com" target="_blank" rel="me noopener noreferrer" class="specimen-plate">
+          <strong>fritzhand.com</strong>
+          <span class="plate-muted" style="margin-top: 0.35rem; font-size: 0.78rem;">
+            Personal site &amp; startup ecosystem work
+          </span>
+        </a>
+        <a href="https://github.com/fritzhand" target="_blank" rel="me noopener noreferrer" class="specimen-plate">
+          <strong>github.com/fritzhand</strong>
+          <span class="plate-muted" style="margin-top: 0.35rem; font-size: 0.78rem;">
+            Open-source tools &amp; digital products
+          </span>
+        </a>
+      </div>
+    </section>
   </article>
 </BaseLayout>

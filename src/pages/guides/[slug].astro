@@ -1,9 +1,11 @@
 ---
+import { Image } from 'astro:assets';
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import FaqSection from '../../components/FaqSection.astro';
 import { SITE } from '../../config/site';
+import { CHAPTER_VISUALS, PHOTOS } from '../../lib/images';
 import { estimateReadingTime, formatDate } from '../../lib/seo';
 
 export async function getStaticPaths() {
@@ -16,29 +18,30 @@ export async function getStaticPaths() {
     const nextGuide = index < guides.length - 1 ? guides[index + 1] : null;
     return {
       params: { slug: guide.id },
-      props: { guide, prevGuide, nextGuide },
+      props: { guide, prevGuide, nextGuide, chapterNum: index + 1 },
     };
   });
 }
 
-const { guide, prevGuide, nextGuide } = Astro.props;
+const { guide, prevGuide, nextGuide, chapterNum } = Astro.props;
 const { Content, headings } = await render(guide);
 const stats = estimateReadingTime(guide.body ?? '');
 const tocHeadings = headings.filter((h) => h.depth === 2);
+const visual = CHAPTER_VISUALS[guide.id];
 
 const breadcrumbs = [
-  { name: 'Contents', href: '/' },
-  { name: guide.data.category, href: '/guides/' },
+  { name: 'Home', href: '/' },
+  { name: 'Encyclopedia', href: '/guides/' },
   { name: guide.data.shortTitle ?? guide.data.title, href: `/guides/${guide.id}/` },
 ];
 
 const prevLink = prevGuide
   ? { label: prevGuide.data.shortTitle ?? prevGuide.data.title, href: `/guides/${prevGuide.id}/` }
-  : { label: 'contents', href: '/' };
+  : { label: 'Encyclopedia home', href: '/' };
 
 const nextLink = nextGuide
   ? { label: nextGuide.data.shortTitle ?? nextGuide.data.title, href: `/guides/${nextGuide.id}/` }
-  : { label: 'glossary', href: '/glossary/' };
+  : { label: 'Photographic archive', href: '/archive/' };
 ---
 
 <BaseLayout
@@ -59,7 +62,6 @@ const nextLink = nextGuide
   faqs={guide.data.faqs}
   prev={prevLink}
   next={nextLink}
-  sidenote={guide.data.sidenote}
   howTo={
     guide.data.howToSteps
       ? {
@@ -71,48 +73,137 @@ const nextLink = nextGuide
       : undefined
   }
 >
-  <Breadcrumbs items={breadcrumbs} />
+  <article class="wrap-reading" style="padding-top: 2.5rem; padding-bottom: 5rem;">
+    <Breadcrumbs items={breadcrumbs} />
 
-  <article class="book-prose">
-    <h1 class="chapter-title">{guide.data.title}</h1>
+    <div class="editorial-bar">
+      <span>Chapter {String(chapterNum).padStart(2, '0')} — {guide.data.category}</span>
+      <span>{stats.minutes} min read · {stats.words.toLocaleString()} words</span>
+    </div>
 
-    <p
-      style="font-family: var(--font-ui), system-ui, sans-serif; font-size: 0.78rem; color: var(--ink-muted); margin-bottom: 1.5rem;"
-    >
-      By <a href="/about/" style="color: var(--ink); font-weight: 500;">{guide.data.author}</a>
-      &ensp;/&ensp;
-      <time datetime={guide.data.publishedAt.toISOString()}>
-        {formatDate(guide.data.publishedAt)}
-      </time>
-      &ensp;/&ensp;
-      {stats.minutes} min read ({stats.words.toLocaleString()} words)
-    </p>
+    <header style="margin-top: 1.5rem; margin-bottom: 2.25rem;">
+      <h1
+        class="font-display"
+        style="font-size: clamp(2.4rem, 5.5vw, 4.4rem); font-weight: 700; margin: 0; max-width: 54rem;"
+      >
+        {guide.data.title}
+      </h1>
+      <p style="margin: 1.15rem 0 0; font-size: 1.18rem; line-height: 1.52; color: var(--ink-muted); max-width: 44rem;">
+        {guide.data.description}
+      </p>
+      <div
+        class="font-ui"
+        style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; margin-top: 1.25rem; font-size: 0.8rem; color: var(--ink-muted);"
+      >
+        <span>
+          By <a href="/about/" style="color: var(--ink); font-weight: 600; text-decoration: underline;">{guide.data.author}</a>
+        </span>
+        <span aria-hidden="true">/</span>
+        <time datetime={guide.data.publishedAt.toISOString()}>
+          {formatDate(guide.data.publishedAt)}
+        </time>
+      </div>
+    </header>
 
     {
-      tocHeadings.length > 2 && (
-        <nav aria-label="Chapter sections" class="reader-note">
-          <strong>Sections:</strong>{' '}
-          {tocHeadings.map((heading, idx) => (
-            <>
-              {idx > 0 && <span aria-hidden="true"> / </span>}
-              <a href={`#${heading.slug}`}>{heading.text}</a>
-            </>
-          ))}
-        </nav>
+      visual && (
+        <figure class="museum-figure" style="margin-top: 0; margin-bottom: 3rem;">
+          <div style="overflow: hidden; border: 1px solid var(--rule-light); max-height: 540px; background: #141413;">
+            <Image
+              src={visual.image}
+              alt={visual.alt}
+              width={1200}
+              quality={86}
+              fetchpriority="high"
+              loading="eager"
+              style="width: 100%; height: 100%; max-height: 540px; object-fit: cover;"
+            />
+          </div>
+          <figcaption>
+            <span>{visual.caption}</span>
+            <span>{visual.credit}</span>
+          </figcaption>
+        </figure>
       )
     }
 
-    <Content />
+    <div class="article-grid">
+      <div class="book-prose">
+        <Content />
 
-    <div class="reader-note" style="margin-top: 2.5rem;">
-      <strong>About the author:</strong>{' '}
-      <a href="/about/">{SITE.author.name}</a> {SITE.author.bio.replace(`${SITE.author.name} `, '')}
-      {' '}For workshops, sustainable sourcing, or production inquiries, visit{' '}
-      <a href="https://fritzmfg.com" target="_blank" rel="noopener noreferrer">Fritz MFG</a> or the{' '}
-      <a href="https://studiobagru.com" target="_blank" rel="noopener noreferrer">Studio Bagru</a>{' '}
-      artisan directory.
+        {guide.data.faqs && guide.data.faqs.length > 0 && <FaqSection items={guide.data.faqs} />}
+      </div>
+
+      <!-- Sticky Right Rail: Field Sidenote, Section Outline, Author Card -->
+      <aside
+        aria-label="Chapter notes"
+        style="position: sticky; top: 5rem; display: flex; flex-direction: column; gap: 1.75rem;"
+      >
+        {
+          guide.data.sidenote && (
+            <div
+              class="font-ui"
+              style="border-top: 3px solid var(--madder); padding-top: 0.75rem; font-size: 0.82rem; line-height: 1.55; color: var(--ink);"
+            >
+              <strong style="display: block; font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--madder); margin-bottom: 0.35rem;">
+                Field note
+              </strong>
+              {guide.data.sidenote}
+            </div>
+          )
+        }
+
+        {
+          tocHeadings.length > 0 && (
+            <nav
+              aria-label="In this chapter"
+              class="font-ui"
+              style="border-top: 1px solid var(--rule-light); padding-top: 0.85rem; font-size: 0.8rem;"
+            >
+              <p style="font-weight: 700; margin: 0 0 0.6rem; color: var(--ink);">Sections</p>
+              <ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.45rem; color: var(--ink-muted);">
+                {tocHeadings.map((h) => (
+                  <li>
+                    <a href={`#${h.slug}`} style="transition: color 0.15s ease;">
+                      {h.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )
+        }
+
+        <div
+          class="font-ui"
+          style="background: var(--surface); border: 1px solid var(--rule-light); padding: 1rem; font-size: 0.78rem; line-height: 1.5;"
+        >
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+            <Image
+              src={PHOTOS.jeremy2026}
+              alt="Jeremy Fritzhand"
+              width={96}
+              height={96}
+              style="width: 48px; height: 48px; object-fit: cover; border: 1px solid var(--rule-light);"
+            />
+            <div>
+              <a href="/about/" style="font-weight: 700; color: var(--ink); display: block;">
+                {SITE.author.name}
+              </a>
+              <span style="color: var(--ink-muted); font-size: 0.72rem;">
+                Studio Bagru &amp; Fritz MFG
+              </span>
+            </div>
+          </div>
+          <p style="margin: 0; color: var(--ink-muted);">
+            Sixteen years working with Bagru’s <em>Chhipa</em> printers and block carvers. For
+            sourcing or workshops, visit{' '}
+            <a href="https://fritzmfg.com" target="_blank" rel="noopener noreferrer" style="color: var(--ink); text-decoration: underline;">
+              Fritz MFG
+            </a>.
+          </p>
+        </div>
+      </aside>
     </div>
-
-    {guide.data.faqs && guide.data.faqs.length > 0 && <FaqSection items={guide.data.faqs} />}
   </article>
 </BaseLayout>

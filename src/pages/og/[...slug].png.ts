@@ -24,10 +24,19 @@ export const getStaticPaths: GetStaticPaths = async () => {
     {
       params: { slug: 'guides' },
       props: {
-        title: 'Complete Chapter Index',
+        title: 'The Encyclopedia — Nine Chapters',
         subtitle:
-          'Nine technical chapters on woodblocks, Bagru dabu mud-resist, natural dyes, fabric care, and ethical sourcing.',
-        section: 'CHAPTERS',
+          'Nine illustrated chapters on woodblocks, Bagru dabu mud-resist, natural dyes, fabric care, and ethical sourcing.',
+        section: 'ENCYCLOPEDIA',
+      },
+    },
+    {
+      params: { slug: 'archive' },
+      props: {
+        title: 'Photographic Field Archive (2010–2026)',
+        subtitle:
+          'Sixteen documentary photographs from Bagru, Rajasthan—Chhipa master printers, dabu indigo vats, teak blocks, and Mahila Print.',
+        section: 'PHOTOGRAPHIC ARCHIVE',
       },
     },
     {

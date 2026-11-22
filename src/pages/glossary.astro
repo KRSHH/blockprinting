@@ -5,128 +5,152 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 const terms = [
   {
     term: 'Ajrakh',
+    group: 'Traditions',
     definition:
       'A 4,000-year-old double-sided resist and mordant block-printing tradition practiced by the Khatri community of Kutch (Gujarat) and Sindh, involving 14 to 16 distinct stages of washing, resist stamping, indigo dipping, and madder dyeing.',
   },
   {
     term: 'Al (Manjistha / Madder)',
+    group: 'Dyes',
     definition:
       'Botanical roots from Rubia cordifolia or Rubia tinctorum simmered in copper vats with alum-mordanted cloth to produce washfast crimson, brick red, and terracotta tones.',
   },
   {
     term: 'Bagru',
+    group: 'Traditions',
     definition:
-      'A historic block-printing town 30 kilometers southwest of Jaipur, Rajasthan, home to the Chhipa community and famous for earthy natural dyes and dabu mud-resist textiles.',
+      'A historic block-printing town 30 kilometers southwest of Jaipur, Rajasthan (GI Application #183), home to the Chhipa community and famous for earthy natural dyes and dabu mud-resist textiles.',
   },
   {
     term: 'Begar',
+    group: 'Dyes',
     definition:
       'Alum (potassium aluminum sulfate) mordant paste thickened with natural gum and tinted with fugitive red ochre so printers can see their impressions before the madder dye bath develops crimson.',
   },
   {
     term: 'Burada',
+    group: 'Process',
     definition:
       'Fine dry sawdust dusted immediately over freshly stamped wet dabu clay paste to absorb surface moisture, prevent smudging, and reinforce the resist crust before indigo dipping.',
   },
   {
     term: 'Buti / Buta',
+    group: 'Blocks',
     definition:
       'A single floral or botanical motif repeated across the body of a textile. Buti refers to smaller motifs; buta refers to larger standalone floral medallions or paisleys.',
   },
   {
     term: 'Chhipa',
+    group: 'Traditions',
     definition:
       'The hereditary artisan community of Rajasthan (particularly Bagru and Sanganer) whose families have practiced hand block printing and natural dyeing for over four centuries.',
   },
   {
     term: 'Dabu',
+    group: 'Process',
     definition:
       'Traditional Bagru mud-resist paste made from local black pond clay (kali mitti), natural gum, slaked lime, and fermented wheat binder, stamped onto cloth to block dye penetration.',
   },
   {
     term: 'Datta',
+    group: 'Blocks',
     definition:
       'The background woodblock in a multi-color set, carved to fill the negative space surrounding the primary floral or geometric motif.',
   },
   {
     term: 'Doo-Rokhi',
+    group: 'Traditions',
     definition:
       'A rare Sanganeri technique meaning "two-faced," in which fine motifs are hand-stamped in exact mirror registration on both sides of lightweight cotton.',
   },
   {
     term: 'Gadh',
+    group: 'Blocks',
     definition:
       'The filler woodblock in a multi-color set, carved to stamp interior petal, leaf, or accent colors inside the rekh outline.',
   },
   {
     term: 'Geru',
+    group: 'Dyes',
     definition:
       'Natural red ochre earth mixed in tiny quantities into clear alum paste as a temporary visual sightener so the printer can track alignment across the table.',
   },
   {
     term: 'Gudh',
+    group: 'Blocks',
     definition:
       'Microscopic registration notches or alignment pins carved into the corners of a woodblock so the printer can align repeating motifs cleanly by eye.',
   },
   {
     term: 'Harda (Myrobalan)',
+    group: 'Dyes',
     definition:
       'Dried fruit powder of Terminalia chebula rich in natural tannins, used to pre-treat scoured cotton so alum and iron mordants bond permanently to cellulose fibers.',
   },
   {
     term: 'Jal',
+    group: 'Blocks',
     definition:
       'An all-over interlocking lattice or net-like botanical pattern characteristic of traditional Bagru and Jaipur block-printed yardage.',
   },
   {
     term: 'Kashish',
+    group: 'Dyes',
     definition:
       'Ferrous sulfate mineral salt used to shift botanical yellows and reds into muted grey, olive, slate, and deep brown shades.',
   },
   {
     term: 'Kunda',
+    group: 'Process',
     definition:
       'The printer’s wooden color tray fitted with a bamboo lattice (tattari) and layered wool felt (gaddi) soaked in thickened dye paste for uniform block charging.',
   },
   {
     term: 'Mahila Print',
+    group: 'Traditions',
     definition:
-      'An ethical craft initiative developed within Jeremy Fritzhand’s Bagru network recognizing women artisans as original designers with direct compensation and credit for their creative IP.',
+      'An ethical craft label developed within Jeremy Fritzhand’s Bagru network recognizing women artisans as original designers with mandatory credit and a 5% direct royalty on every sale.',
   },
   {
     term: 'Neel (Indigo)',
+    group: 'Dyes',
     definition:
       'Natural blue dye extracted from Indigofera tinctoria leaves and fermented in sunken alkaline vats; develops from pale sky blue to midnight navy through repeated air-oxidized dips.',
   },
   {
     term: 'Patia',
+    group: 'Process',
     definition:
       'A traditional padded block-printing table layered with dense wool felt or jute matting beneath a taut cotton sheet so carved teakwood blocks transfer crisp, even pressure.',
   },
   {
     term: 'Pittal',
+    group: 'Blocks',
     definition:
       'Fine brass strips or pins hammered into seasoned teakwood blocks by master carvers to print hairline dots and borders too delicate for timber alone.',
   },
   {
     term: 'Rekh',
+    group: 'Blocks',
     definition:
       'The outline woodblock—always stamped first—that establishes the structural linework and repeat grid for all subsequent filler and background blocks.',
   },
   {
     term: 'Saaj',
+    group: 'Process',
     definition:
       'The traditional cloth-scouring process in Bagru using fuller’s earth (multani mitti), soda ash, and castor oil to strip raw cotton of natural waxes and loom starches before printing.',
   },
   {
     term: 'Syahi',
+    group: 'Dyes',
     definition:
       'Traditional fermented iron black dye brewed for two to three weeks from scrap iron filings, jaggery (unrefined cane sugar), and water, then thickened with natural gum.',
   },
 ];
 
 const breadcrumbs = [
-  { name: 'Contents', href: '/' },
+  { name: 'Home', href: '/' },
   { name: 'Glossary', href: '/glossary/' },
 ];
 ---
@@ -136,30 +160,58 @@ const breadcrumbs = [
   description="Authoritative A-to-Z glossary of 24 traditional hand block printing terms by Jeremy Fritzhand: rekh, datta, gadh, dabu, saaj, harda, syahi, kunda, and more."
   image="/og/glossary.png"
   breadcrumbs={breadcrumbs}
-  definedTerms={terms}
-  prev={{ label: 'Ethical sourcing & artisan rights', href: '/guides/ethical-block-printing-supply-chains-and-artisan-rights/' }}
+  definedTerms={terms.map(({ term, definition }) => ({ term, definition }))}
+  prev={{ label: 'Photographic archive', href: '/archive/' }}
   next={{ label: 'Yardage calculator', href: '/tools/yardage-calculator/' }}
-  sidenote="Workshop terminology compiled from Chhipa printers, block carvers, and natural dyers in Bagru, Sanganer, and Kutch."
 >
-  <Breadcrumbs items={breadcrumbs} />
+  <article class="wrap-reading" style="padding-top: 2.5rem; padding-bottom: 5rem;">
+    <Breadcrumbs items={breadcrumbs} />
 
-  <article class="book-prose">
-    <h1 class="chapter-title">Glossary of block printing</h1>
-    <p class="chapter-lead">
-      Twenty-four foundational workshop terms used by woodblock carvers, <em>Chhipa</em> and{' '}
-      <em>Khatri</em> printers, and natural dyers across Rajasthan and Gujarat—compiled by Jeremy
-      Fritzhand.
-    </p>
+    <div class="editorial-bar">
+      <span>Open Reference — 24 workshop terms</span>
+      <span>Bagru · Sanganer · Kutch</span>
+    </div>
 
-    <dl style="margin-top: 1.75rem; border-top: 2px solid var(--rule);">
+    <div
+      style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; align-items: end; margin: 1.5rem 0 2rem;"
+    >
+      <h1
+        class="font-display"
+        style="font-size: clamp(2.6rem, 6vw, 4.6rem); font-weight: 700; margin: 0;"
+      >
+        Glossary of block printing
+      </h1>
+      <div>
+        <label for="glossary-search" class="font-ui" style="display: block; font-size: 0.74rem; font-weight: 600; margin-bottom: 0.35rem; color: var(--ink-muted);">
+          Filter terms by keyword
+        </label>
+        <input
+          id="glossary-search"
+          type="search"
+          placeholder="Search rekh, dabu, harda, syahi..."
+          class="font-ui"
+          style="width: 100%; border: 1px solid var(--rule); background: var(--surface); padding: 0.65rem 0.85rem; font-size: 0.86rem;"
+        />
+      </div>
+    </div>
+
+    <dl
+      id="glossary-list"
+      style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; margin: 0;"
+    >
       {
         terms.map((item) => (
           <div
-            id={item.term.toLowerCase().replace(/[^a-z0-9]+/g, '-')}
-            style="border-bottom: 1px solid var(--rule-light); padding: 1rem 0;"
+            data-term={`${item.term} ${item.group} ${item.definition}`.toLowerCase()}
+            style="background: var(--surface); border: 1px solid var(--rule-light); border-top: 2px solid var(--rule); padding: 1.25rem;"
           >
-            <dt style="font-weight: 700; font-size: 1.05rem; color: var(--ink);">{item.term}</dt>
-            <dd style="margin: 0.3rem 0 0 0; color: var(--ink-muted); line-height: 1.5;">
+            <div class="font-ui" style="font-size: 0.68rem; font-weight: 600; color: var(--madder); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">
+              {item.group}
+            </div>
+            <dt class="font-display" style="font-size: 1.5rem; font-weight: 700; color: var(--ink);">
+              {item.term}
+            </dt>
+            <dd style="margin: 0.5rem 0 0; font-size: 0.92rem; line-height: 1.52; color: var(--ink-muted);">
               {item.definition}
             </dd>
           </div>
@@ -167,4 +219,19 @@ const breadcrumbs = [
       }
     </dl>
   </article>
+
+  <script is:inline>
+    (function () {
+      const input = document.getElementById('glossary-search');
+      const cards = document.querySelectorAll('#glossary-list > div');
+      if (!input) return;
+      input.addEventListener('input', () => {
+        const q = input.value.trim().toLowerCase();
+        cards.forEach((card) => {
+          const text = card.getAttribute('data-term') || '';
+          card.style.display = !q || text.includes(q) ? 'block' : 'none';
+        });
+      });
+    })();
+  </script>
 </BaseLayout>

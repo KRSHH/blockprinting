@@ -1,0 +1,146 @@
+---
+const dyes = [
+  {
+    id: 'harda',
+    name: 'Harda',
+    subtitle: 'Myrobalan Tannin',
+    hex: '#D8BE7A',
+    source: 'Dried fruit powder of Terminalia chebula',
+    role: 'Pre-mordant ground wash',
+    notes:
+      'Turns scoured cotton a warm pale yellow. The tannin inside harda is what lets iron black and alum red bond permanently inside cellulose fibers.',
+  },
+  {
+    id: 'syahi',
+    name: 'Syahi',
+    subtitle: 'Fermented Iron Black',
+    hex: '#22211F',
+    source: 'Scrap iron filings + unrefined cane jaggery + water',
+    role: 'Outline (rekh) dye paste',
+    notes:
+      'Fermented in sealed pots for 14–21 days, then thickened with guar gum. Reacts instantly with harda tannin to lock in velvety charcoal black.',
+  },
+  {
+    id: 'manjistha',
+    name: 'Manjistha / Al',
+    subtitle: 'Alum & Madder Red',
+    hex: '#9E2A22',
+    source: 'Rubia cordifolia root + dhaura flowers + alum (begar)',
+    role: 'Mordant-developed crimson',
+    notes:
+      'Alum paste is stamped invisibly (tinted with red ochre to see alignment). The crimson blooms only when simmered in a copper madder cauldron.',
+  },
+  {
+    id: 'neel',
+    name: 'Neel',
+    subtitle: 'Natural Indigo Vat',
+    hex: '#1D3C6A',
+    source: 'Indigofera tinctoria leaves in alkaline fermentation vat',
+    role: 'Immersion dye for dabu mud-resist',
+    notes:
+      'Dipped slowly while black-clay dabu protects the motif underneath. Emerges green and oxidizes into luminous blue in Rajasthan air.',
+  },
+  {
+    id: 'kashish',
+    name: 'Kashish',
+    subtitle: 'Ferrous Sulfate Earth',
+    hex: '#5D4B3B',
+    source: 'Iron mineral salt + pomegranate or harda tannins',
+    role: 'Earthy umber, olive & slate shifter',
+    notes:
+      'Shifts warm botanical yellows into muted khaki, olive, and deep espresso browns iconic to traditional Bagru textiles.',
+  },
+  {
+    id: 'anar',
+    name: 'Anar Chilka',
+    subtitle: 'Pomegranate Rind',
+    hex: '#C48A28',
+    source: 'Sun-dried pomegranate peels boiled to golden liquor',
+    role: 'Warm ochre & over-dye green base',
+    notes:
+      'High natural tannin content yields washfast mustard gold on its own and rich forest green when over-dyed onto natural indigo.',
+  },
+];
+---
+
+<div
+  id="dye-explorer"
+  style="background: var(--surface); border: 1px solid var(--rule-light); margin-top: 2rem;"
+>
+  <div
+    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); border-bottom: 1px solid var(--rule-light);"
+    role="tablist"
+    aria-label="Natural dye chemistry swatches"
+  >
+    {
+      dyes.map((dye, i) => (
+        <button
+          type="button"
+          role="tab"
+          aria-selected={i === 0 ? 'true' : 'false'}
+          data-dye-btn={dye.id}
+          class="font-ui"
+          style={`display: flex; flex-direction: column; align-items: flex-start; gap: 0.45rem; padding: 1rem; border: 0; border-right: 1px solid var(--rule-light); background: ${i === 0 ? '#111110' : '#ffffff'}; color: ${i === 0 ? '#ffffff' : '#111110'}; cursor: pointer; text-align: left; transition: background-color 0.15s ease;`}
+        >
+          <span
+            style={`width: 100%; height: 34px; background: ${dye.hex}; display: block; border: 1px solid rgba(0,0,0,0.12);`}
+          />
+          <span style="font-weight: 700; font-size: 0.86rem;">{dye.name}</span>
+          <span style="font-size: 0.7rem; opacity: 0.72;">{dye.subtitle}</span>
+        </button>
+      ))
+    }
+  </div>
+
+  <div style="padding: 1.75rem;">
+    {
+      dyes.map((dye, i) => (
+        <div
+          data-dye-panel={dye.id}
+          style={`display: ${i === 0 ? 'grid' : 'none'}; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; align-items: start;`}
+        >
+          <div>
+            <p class="font-display" style="font-size: 2rem; font-weight: 700; margin: 0;">
+              {dye.name} — {dye.subtitle}
+            </p>
+            <p style="margin: 0.75rem 0 0; color: var(--ink-muted); max-width: 34rem;">
+              {dye.notes}
+            </p>
+          </div>
+          <dl
+            class="font-ui"
+            style="margin: 0; font-size: 0.82rem; border-top: 2px solid var(--rule); padding-top: 0.75rem;"
+          >
+            <dt style="font-weight: 600; color: var(--ink);">Botanical / Mineral Source</dt>
+            <dd style="margin: 0.15rem 0 0.85rem; color: var(--ink-muted);">{dye.source}</dd>
+            <dt style="font-weight: 600; color: var(--ink);">Workshop Function</dt>
+            <dd style="margin: 0.15rem 0 0; color: var(--ink-muted);">{dye.role}</dd>
+          </dl>
+        </div>
+      ))
+    }
+  </div>
+
+  <script is:inline>
+    (function () {
+      const root = document.getElementById('dye-explorer');
+      if (!root) return;
+      const btns = root.querySelectorAll('[data-dye-btn]');
+      const panels = root.querySelectorAll('[data-dye-panel]');
+      btns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const target = btn.getAttribute('data-dye-btn');
+          btns.forEach((b) => {
+            const active = b.getAttribute('data-dye-btn') === target;
+            b.setAttribute('aria-selected', active ? 'true' : 'false');
+            b.style.background = active ? '#111110' : '#ffffff';
+            b.style.color = active ? '#ffffff' : '#111110';
+          });
+          panels.forEach((p) => {
+            p.style.display = p.getAttribute('data-dye-panel') === target ? 'grid' : 'none';
+          });
+        });
+      });
+    })();
+  </script>
+</div>

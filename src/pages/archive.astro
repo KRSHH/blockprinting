@@ -1,0 +1,143 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { ARCHIVE_PLATES } from '../lib/images';
+
+const breadcrumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Photographic archive', href: '/archive/' },
+];
+
+const categories = [
+  { id: 'all', label: 'All plates (16)' },
+  { id: 'workshops', label: 'Workshops & drying fields' },
+  { id: 'dyes', label: 'Natural dyes & vats' },
+  { id: 'artisans', label: 'Makers & Mahila Print' },
+  { id: 'field-2010', label: '2010 Field Archive' },
+];
+---
+
+<BaseLayout
+  title="Photographic Archive — Bagru & Hand Block Printing"
+  description="Sixteen documentary photographs from Jeremy Fritzhand's field work in Bagru, Rajasthan: Chhipa printers, dabu indigo vats, teak blocks, and Mahila Print."
+  image="/og/archive.png"
+  pageType="CollectionPage"
+  breadcrumbs={breadcrumbs}
+  prev={{ label: 'Encyclopedia', href: '/guides/' }}
+  next={{ label: 'Glossary', href: '/glossary/' }}
+>
+  <section class="wrap" style="padding-top: 2.5rem; padding-bottom: 5rem;">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <div class="editorial-bar">
+      <span>Photographic Archive — 2010 to 2026</span>
+      <span>Bagru, Rajasthan · Studio Bagru &amp; Jeremy Fritzhand</span>
+    </div>
+
+    <div
+      style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; align-items: end; margin: 1.5rem 0 2.5rem;"
+    >
+      <h1
+        class="font-display"
+        style="font-size: clamp(2.6rem, 6vw, 4.8rem); font-weight: 700; margin: 0;"
+      >
+        The Field Archive
+      </h1>
+      <p style="margin: 0; color: var(--ink-muted);">
+        Real documentary photography from sixteen years at the printing tables, copper dye
+        cauldrons, and sun-baked drying yards of Bagru—plus historical plates from the global
+        lineage of patterned cloth.
+      </p>
+    </div>
+
+    <!-- Filter Controls -->
+    <div
+      class="font-ui"
+      role="tablist"
+      aria-label="Filter archive plates"
+      style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--rule-light);"
+    >
+      {
+        categories.map((cat, idx) => (
+          <button
+            type="button"
+            role="tab"
+            aria-selected={idx === 0 ? 'true' : 'false'}
+            data-filter={cat.id}
+            style={`padding: 0.55rem 1rem; border: 1px solid var(--rule); font-size: 0.78rem; font-weight: 600; cursor: pointer; background: ${idx === 0 ? '#111110' : '#ffffff'}; color: ${idx === 0 ? '#ffffff' : '#111110'};`}
+          >
+            {cat.label}
+          </button>
+        ))
+      }
+    </div>
+
+    <!-- Specimen Plate Grid -->
+    <div
+      id="archive-grid"
+      style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.35rem;"
+    >
+      {
+        ARCHIVE_PLATES.map((plate, i) => (
+          <figure
+            data-cat={plate.category}
+            class="gallery-tile"
+            style="margin: 0; background: var(--surface); border: 1px solid var(--rule-light); display: flex; flex-direction: column;"
+          >
+            <div class="plate-media" style="aspect-ratio: 4 / 3;">
+              <Image
+                src={plate.image}
+                alt={plate.caption}
+                width={760}
+                quality={84}
+              />
+            </div>
+            <figcaption style="padding: 1.1rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div
+                  class="font-ui"
+                  style="display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--ink-muted); margin-bottom: 0.45rem; font-variant-numeric: tabular-nums;"
+                >
+                  <span>PLATE {String(i + 1).padStart(2, '0')} · {plate.location}</span>
+                  <span style="color: var(--madder); font-weight: 600;">{plate.year}</span>
+                </div>
+                <p
+                  class="font-display"
+                  style="font-size: 1.35rem; font-weight: 700; margin: 0 0 0.45rem;"
+                >
+                  {plate.title}
+                </p>
+                <p style="margin: 0; font-size: 0.86rem; line-height: 1.48; color: var(--ink-muted);">
+                  {plate.caption}
+                </p>
+              </div>
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </section>
+
+  <script is:inline>
+    (function () {
+      const buttons = document.querySelectorAll('[data-filter]');
+      const tiles = document.querySelectorAll('#archive-grid [data-cat]');
+      buttons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const cat = btn.getAttribute('data-filter');
+          buttons.forEach((b) => {
+            const active = b.getAttribute('data-filter') === cat;
+            b.setAttribute('aria-selected', active ? 'true' : 'false');
+            b.style.background = active ? '#111110' : '#ffffff';
+            b.style.color = active ? '#ffffff' : '#111110';
+          });
+          tiles.forEach((tile) => {
+            const show = cat === 'all' || tile.getAttribute('data-cat') === cat;
+            tile.style.display = show ? 'flex' : 'none';
+          });
+        });
+      });
+    })();
+  </script>
+</BaseLayout>

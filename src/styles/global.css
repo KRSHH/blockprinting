@@ -1,23 +1,33 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #ffffff;
-  --bg-subtle: #f7f7f5;
+  --bg: #f6f4ef;
+  --surface: #ffffff;
   --ink: #111110;
-  --ink-muted: #595955;
+  --ink-muted: #52514d;
+  --obsidian: #111110;
+  --obsidian-soft: #1b1b19;
+  --paper-on-dark: #f4f2ec;
+  --muted-on-dark: #a8a59e;
   --rule: #111110;
-  --rule-light: #d6d6d2;
-  --accent: #a31c1c;
-  --accent-wash: #faf1f1;
+  --rule-light: #d4d0c7;
+  --madder: #b3261e;
+  --indigo: #1b3a6b;
+  --harda: #c99d3b;
 }
 
-/* Fluid typographic scale modeled on practicaltypography.com */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html {
-  font-size: 20px;
+  font-size: 18px;
   background-color: var(--bg);
   color: var(--ink);
   font-family: var(--font-book), Georgia, Cambria, "Times New Roman", serif;
-  line-height: 1.5;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   scroll-behavior: smooth;
@@ -25,211 +35,276 @@ html {
 
 @media (max-width: 720px) {
   html {
-    font-size: 17px;
+    font-size: 16px;
   }
 }
 
 body {
-  margin: 0 auto;
-  width: 100%;
-  max-width: 1060px;
+  margin: 0;
   min-height: 100vh;
-  position: relative;
   background-color: var(--bg);
   color: var(--ink);
-  font-variant-numeric: oldstyle-nums;
+  overflow-x: hidden;
 }
 
-/* Main book layout: left spine/margin column + reading column */
-.book-shell {
-  padding: 2.75rem 2.25rem 7.5rem 13.75rem;
-}
-
-@media (max-width: 860px) {
-  .book-shell {
-    padding: 1.5rem 1.25rem 6.5rem 1.25rem;
-  }
-}
-
-/* Fixed left spine on desktop */
-.book-spine {
-  position: fixed;
-  top: 2.75rem;
-  left: max(1.5rem, calc((100vw - 1060px) / 2 + 1.5rem));
-  width: 10.5rem;
-  z-index: 20;
-}
-
-@media (max-width: 860px) {
-  .book-spine {
-    position: static;
-    width: 100%;
-    padding: 1.25rem 1.25rem 0.75rem;
-    border-bottom: 1px solid var(--rule-light);
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-}
-
-.spine-title {
-  font-family: var(--font-display), "Arial Narrow", Arial, sans-serif;
-  text-transform: uppercase;
-  font-weight: 700;
-  line-height: 1.04;
-  letter-spacing: 0.02em;
-  color: var(--ink);
-}
-
-.spine-rule {
-  border: 0;
-  border-top: 4px solid var(--rule);
-  margin: 0.7rem 0;
-  width: 9.25rem;
-}
-
-/* Heavy book rules */
-.book-rule-heavy {
-  border: 0;
-  border-top: 4px solid var(--rule);
-  margin: 0;
-}
-
-.book-rule-thin {
-  border: 0;
-  border-top: 1px solid var(--rule-light);
-  margin: 0;
-}
-
-/* Chapter & page headings */
-.chapter-title {
-  font-family: var(--font-display), "Arial Narrow", Arial, sans-serif;
-  font-size: clamp(2rem, 3.6vw, 2.75rem);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.015em;
-  line-height: 1.05;
-  border-top: 2px solid var(--rule);
-  padding-top: 0.35rem;
-  margin-top: 0;
-  margin-bottom: 1.25rem;
-}
-
-.chapter-lead {
-  font-size: 1.12rem;
-  line-height: 1.48;
-  color: var(--ink);
-  margin-bottom: 1.5rem;
-}
-
-/* Two-column Table of Contents on Home */
-.toc-part {
-  font-family: var(--font-book), Georgia, serif;
-  font-size: 1.05rem;
-  font-weight: 700;
-  margin-top: 1.6rem;
-  margin-bottom: 0.45rem;
-  line-height: 1.25;
-}
-
-.toc-list {
-  list-style: none;
-  margin: 0 0 1rem 0.35rem;
-  padding: 0;
-  column-count: 2;
-  column-gap: 2.25rem;
-}
-
-.toc-list--single {
-  column-count: 1;
-}
-
-@media (max-width: 640px) {
-  .toc-list {
-    column-count: 1;
-  }
-}
-
-.toc-list li {
-  break-inside: avoid;
-  margin-bottom: 0.45rem;
-  line-height: 1.28;
-}
-
-/* Links: clean ink, soft madder hover wash, crimson degree mark on external links */
 a {
   color: inherit;
   text-decoration: none;
-  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.book-prose a,
-.toc-list a,
-.toc-part a {
-  text-decoration: underline;
-  text-decoration-color: var(--rule-light);
-  text-underline-offset: 0.18em;
-  text-decoration-thickness: 1px;
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
-.book-prose a:hover,
-.toc-list a:hover,
-.toc-part a:hover {
-  background-color: var(--accent-wash);
-  text-decoration-color: var(--accent);
-  color: var(--ink);
+/* Containers */
+.wrap {
+  width: 100%;
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 3.5vw, 3rem);
 }
 
-/* External link degree marker (Butterick's signature detail) */
-a[target="_blank"]::after {
-  content: "\FEFF°";
+.wrap-reading {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 3.5vw, 3rem);
+}
+
+/* Display & UI Typography */
+.font-display {
+  font-family: var(--font-display), "Arial Narrow", Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.94;
+}
+
+.font-ui {
+  font-family: var(--font-ui), system-ui, -apple-system, sans-serif;
+}
+
+/* Masthead */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background-color: var(--obsidian);
+  color: var(--paper-on-dark);
+  border-bottom: 1px solid #2b2b28;
+}
+
+.site-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  height: 3.6rem;
+}
+
+.site-brand {
+  font-family: var(--font-display), "Arial Narrow", Arial, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.9rem, 2.2vw, 2rem);
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.site-nav a {
+  color: var(--muted-on-dark);
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.site-nav a:hover,
+.site-nav a[aria-current="page"] {
+  color: #ffffff;
+  border-bottom-color: var(--madder);
+}
+
+/* Swiss Editorial Bar (inspired by Obys Grids) */
+.editorial-bar {
+  border-top: 4px solid var(--rule);
+  padding-top: 0.75rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+}
+
+.editorial-bar--dark {
+  border-top-color: var(--paper-on-dark);
+  color: var(--muted-on-dark);
+}
+
+/* Specimen Plate with precision corner crop-marks (inspired by The Blimp) */
+.specimen-plate {
   position: relative;
-  top: -0.1em;
-  margin-left: 0.08em;
-  font-size: 0.9em;
-  color: var(--accent);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--surface);
+  border: 1px solid var(--rule-light);
+  padding: 1.25rem;
+  transition: background-color 0.22s ease, color 0.22s ease, border-color 0.22s ease;
 }
 
-a.xref {
-  font-variant-caps: all-small-caps;
-  letter-spacing: 0.03em;
+.specimen-plate::before,
+.specimen-plate::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+  transition: border-color 0.22s ease;
 }
 
-/* Prose body formatting (60-68ch measure) */
+.specimen-plate::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid var(--ink);
+  border-left: 2px solid var(--ink);
+}
+
+.specimen-plate::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid var(--ink);
+  border-right: 2px solid var(--ink);
+}
+
+.specimen-plate:hover {
+  background-color: var(--obsidian);
+  color: var(--paper-on-dark);
+  border-color: var(--obsidian);
+}
+
+.specimen-plate:hover::before {
+  border-color: var(--madder);
+}
+
+.specimen-plate:hover::after {
+  border-color: var(--madder);
+}
+
+.specimen-plate:hover .plate-muted {
+  color: var(--muted-on-dark);
+}
+
+.plate-muted {
+  color: var(--ink-muted);
+  transition: color 0.22s ease;
+}
+
+.plate-media {
+  overflow: hidden;
+  background-color: #e6e3db;
+}
+
+.plate-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.specimen-plate:hover .plate-media img,
+.gallery-tile:hover img {
+  transform: scale(1.035);
+}
+
+/* Obsidian contrast band */
+.band-dark {
+  background-color: var(--obsidian);
+  color: var(--paper-on-dark);
+}
+
+/* Prose reading measure (Practical Typography discipline) */
+.article-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .article-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+}
+
 .book-prose {
-  max-width: 36rem;
+  max-width: 39rem;
+  font-size: 1.05rem;
+  line-height: 1.62;
 }
 
 .book-prose p {
-  margin-bottom: 1.1rem;
+  margin: 0 0 1.25rem;
 }
 
 .book-prose h2 {
-  font-family: var(--font-book), Georgia, serif;
-  font-size: 1.32rem;
+  font-family: var(--font-display), "Arial Narrow", Arial, sans-serif;
+  font-size: clamp(1.55rem, 2.5vw, 2.05rem);
   font-weight: 700;
-  line-height: 1.25;
-  margin-top: 2.25rem;
-  margin-bottom: 0.7rem;
-  border-top: 1px solid var(--rule-light);
-  padding-top: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 1.05;
+  margin: 2.75rem 0 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 2px solid var(--rule);
 }
 
 .book-prose h3 {
   font-family: var(--font-ui), system-ui, sans-serif;
   font-size: 0.95rem;
   font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--ink);
-  margin-top: 1.6rem;
-  margin-bottom: 0.5rem;
+  margin: 1.85rem 0 0.6rem;
+}
+
+.book-prose a {
+  text-decoration: underline;
+  text-decoration-color: var(--madder);
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+
+.book-prose a:hover {
+  background-color: #f4e2e0;
+}
+
+a[target="_blank"]::after {
+  content: "\FEFF°";
+  position: relative;
+  top: -0.1em;
+  margin-left: 0.08em;
+  color: var(--madder);
 }
 
 .book-prose ul,
 .book-prose ol {
-  margin: 0 0 1.2rem 1.75rem;
+  margin: 0 0 1.35rem 1.5rem;
   padding: 0;
 }
 
@@ -243,25 +318,16 @@ a.xref {
 
 .book-prose li {
   margin-bottom: 0.55rem;
-  padding-left: 0.25rem;
-}
-
-.book-prose blockquote {
-  margin: 1.5rem 0;
-  padding: 0.85rem 1.15rem;
-  background-color: var(--bg-subtle);
-  border-top: 1px solid var(--rule-light);
-  border-bottom: 1px solid var(--rule-light);
-  font-size: 0.95rem;
 }
 
 .book-prose table {
   width: 100%;
   border-collapse: collapse;
-  margin: 1.6rem 0;
+  margin: 1.75rem 0;
   font-family: var(--font-ui), system-ui, sans-serif;
-  font-size: 0.82rem;
-  line-height: 1.4;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  background-color: var(--surface);
   font-variant-numeric: tabular-nums;
 }
 
@@ -270,119 +336,119 @@ a.xref {
   font-weight: 600;
   border-top: 2px solid var(--rule);
   border-bottom: 1px solid var(--rule);
-  padding: 0.5rem 0.6rem;
+  padding: 0.65rem 0.75rem;
+  background-color: #eeece5;
 }
 
 .book-prose td {
   border-bottom: 1px solid var(--rule-light);
-  padding: 0.5rem 0.6rem;
+  padding: 0.65rem 0.75rem;
   vertical-align: top;
 }
 
-/* Reader note / editorial box (Butterick's reader-note) */
-.reader-note {
+.book-prose blockquote {
   margin: 1.75rem 0;
-  padding: 0.95rem 1.1rem;
-  background-color: var(--bg-subtle);
-  border-top: 1px solid var(--rule-light);
-  border-bottom: 1px solid var(--rule-light);
-  font-family: var(--font-ui), system-ui, sans-serif;
-  font-size: 0.82rem;
-  line-height: 1.5;
-  color: var(--ink-muted);
-}
-
-.reader-note strong {
-  color: var(--ink);
-}
-
-/* Hanging Q. / A. outdent FAQ section (direct nod to practicaltypography.com) */
-.qa-section {
-  margin-top: 2.75rem;
+  padding: 1rem 1.25rem;
+  background-color: var(--surface);
   border-top: 2px solid var(--rule);
-  padding-top: 1.25rem;
+  border-bottom: 1px solid var(--rule-light);
+  font-size: 1.02rem;
+}
+
+/* Hanging Q. / A. outdents */
+.qa-section {
+  margin-top: 3rem;
+  border-top: 3px solid var(--rule);
+  padding-top: 1.5rem;
 }
 
 .qa-item {
   margin-bottom: 1.5rem;
-  padding-left: 2.1rem;
+  padding-left: 2.2rem;
 }
 
 .qa-q {
   font-weight: 700;
-  line-height: 1.32;
-  margin-bottom: 0.35rem;
-  text-indent: -2.1rem;
+  line-height: 1.35;
+  margin: 0 0 0.35rem;
+  text-indent: -2.2rem;
 }
 
 .qa-q::before {
   content: "Q.";
   display: inline-block;
-  width: 2.1rem;
+  width: 2.2rem;
   text-indent: 0;
-  color: var(--accent);
+  color: var(--madder);
   font-family: var(--font-ui), system-ui, sans-serif;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .qa-a {
-  line-height: 1.5;
+  margin: 0;
   color: var(--ink-muted);
-  text-indent: -2.1rem;
+  line-height: 1.55;
+  text-indent: -2.2rem;
 }
 
 .qa-a::before {
   content: "A.";
   display: inline-block;
-  width: 2.1rem;
+  width: 2.2rem;
   text-indent: 0;
   color: var(--ink);
   font-family: var(--font-ui), system-ui, sans-serif;
-  font-weight: 600;
+  font-weight: 700;
 }
 
-/* Bottom pinned book navigation toolbar */
-.book-toolbar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: var(--bg);
-  border-top: 1px solid var(--rule-light);
-  z-index: 30;
+/* Museum figure caption */
+.museum-figure {
+  margin: 2rem 0;
+}
+
+.museum-figure img {
+  width: 100%;
+  border: 1px solid var(--rule-light);
+}
+
+.museum-figure figcaption {
+  margin-top: 0.55rem;
   font-family: var(--font-ui), system-ui, sans-serif;
   font-size: 0.78rem;
-}
-
-.book-toolbar-inner {
-  max-width: 1060px;
-  margin: 0 auto;
-  padding: 0.65rem 1.5rem;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: 1rem;
-}
-
-.book-toolbar a {
   color: var(--ink-muted);
-  padding: 0.25rem 0.4rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid var(--rule-light);
+  padding-bottom: 0.5rem;
 }
 
-.book-toolbar a:hover {
-  color: var(--ink);
-  background-color: var(--accent-wash);
+/* Subtle scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Focus visibility */
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--madder);
   outline-offset: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
   * {
     transition: none !important;
