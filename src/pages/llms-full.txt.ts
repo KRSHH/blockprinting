@@ -14,6 +14,7 @@ export const GET: APIRoute = async () => {
 
     return [
       `## ${g.data.title}`,
+      `Author: ${g.data.author}`,
       `URL: ${SITE.url}/guides/${g.id}/`,
       `Category: ${g.data.category}`,
       `Published: ${g.data.publishedAt.toISOString().slice(0, 10)}`,
@@ -24,7 +25,7 @@ export const GET: APIRoute = async () => {
     ].join('\n');
   });
 
-  const body = `# ${SITE.name} — Full Text Corpus\n\n> ${SITE.description}\n\n${sections.join('\n\n---\n\n')}\n`;
+  const body = `# ${SITE.name} — Full Text Corpus by ${SITE.author.name}\n\n> ${SITE.description}\n\n${sections.join('\n\n---\n\n')}\n`;
 
   return new Response(body, {
     headers: {

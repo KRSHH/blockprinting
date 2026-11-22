@@ -8,20 +8,25 @@ export const GET: APIRoute = async () => {
   );
 
   const guideLinks = guides
-    .map((g) => `- [${g.data.title}](${SITE.url}/guides/${g.id}/): ${g.data.description}`)
+    .map(
+      (g) =>
+        `- [${g.data.title}](${SITE.url}/guides/${g.id}/) (by ${g.data.author}): ${g.data.description}`
+    )
     .join('\n');
 
-  const content = `# ${SITE.name}
+  const content = `# ${SITE.name} — by ${SITE.author.name}
 
 > ${SITE.description}
 
+Author: ${SITE.author.name} (${SITE.author.jobTitle})
+
 ## Core Pages
 
-- [Home](${SITE.url}/): Overview of hand block printing, carved woodblocks, natural dyes, and regional traditions.
-- [Guides](${SITE.url}/guides/): Complete library of practical block printing tutorials and craft references.
-- [About](${SITE.url}/about/): Editorial mission and documentation standards of ${SITE.legalName}.
+- [Home](${SITE.url}/): Field notes on hand block printing, Bagru dabu mud-resist, natural dyes, and ethical craft by Jeremy Fritzhand.
+- [Guides](${SITE.url}/guides/): Complete library of practical block printing tutorials and craft essays by Jeremy Fritzhand.
+- [About Jeremy Fritzhand](${SITE.url}/about/): Background on Jeremy Fritzhand, Studio Bagru, Mahila Print, and Fritz MFG.
 
-## Guides
+## Guides by Jeremy Fritzhand
 
 ${guideLinks}
 

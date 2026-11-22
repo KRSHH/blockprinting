@@ -173,14 +173,14 @@ export async function renderOgImagePng({
                 {
                   type: 'span',
                   props: {
-                    children: 'Traditional Hand Block Printing, Woodblocks & Natural Dyes',
+                    children: 'By Jeremy Fritzhand · Hand Block Printing, Woodblocks & Natural Dyes',
                   },
                 },
                 {
                   type: 'span',
                   props: {
                     style: { color: '#B5452E' },
-                    children: 'Guide & Archive',
+                    children: 'Field Notes & Guides',
                   },
                 },
               ],

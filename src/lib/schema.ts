@@ -6,6 +6,8 @@ import type {
   Graph,
   HowTo,
   Organization,
+  Person,
+  ProfilePage,
   Thing,
   WebPage,
   WebSite,
@@ -33,7 +35,7 @@ export interface SchemaPageOptions {
   title: string;
   description: string;
   image?: string;
-  pageType?: 'WebPage' | 'CollectionPage' | 'AboutPage';
+  pageType?: 'WebPage' | 'CollectionPage' | 'AboutPage' | 'ProfilePage';
   datePublished?: Date;
   dateModified?: Date;
   breadcrumbs?: BreadcrumbItem[];
@@ -60,6 +62,7 @@ export interface SchemaPageOptions {
 
 const ORG_ID = `${SITE.url}/#organization`;
 const WEBSITE_ID = `${SITE.url}/#website`;
+const AUTHOR_ID = `${SITE.url}/#author`;
 
 export function buildSchemaGraph(options: SchemaPageOptions): Graph {
   const canonicalUrl = buildCanonicalUrl(options.pathname);
@@ -67,12 +70,38 @@ export function buildSchemaGraph(options: SchemaPageOptions): Graph {
   const breadcrumbId = `${canonicalUrl}#breadcrumb`;
   const imageUrl = buildAbsoluteUrl(options.image ?? SITE.defaultOgImage);
 
+  const authorPerson: Person = {
+    '@type': 'Person',
+    '@id': AUTHOR_ID,
+    name: SITE.author.name,
+    givenName: SITE.author.givenName,
+    familyName: SITE.author.familyName,
+    url: SITE.author.url,
+    jobTitle: SITE.author.jobTitle,
+    description: SITE.author.bio,
+    alumniOf: {
+      '@type': 'CollegeOrUniversity',
+      name: 'Union College',
+    },
+    knowsAbout: [
+      'Hand Block Printing',
+      'Bagru Dabu Mud-Resist Printing',
+      'Natural Dyes and Mordants',
+      'Woodblock Carving',
+      'Ethical Textile Manufacturing',
+      'Artisan Design Rights',
+      'Indian Craft Heritage',
+    ],
+    sameAs: [...SITE.author.sameAs],
+  };
+
   const organization: Organization = {
     '@type': 'Organization',
     '@id': ORG_ID,
     name: SITE.name,
     legalName: SITE.legalName,
     url: `${SITE.url}/`,
+    founder: { '@id': AUTHOR_ID },
     logo: {
       '@type': 'ImageObject',
       url: buildAbsoluteUrl(SITE.logoPath),
@@ -92,10 +121,11 @@ export function buildSchemaGraph(options: SchemaPageOptions): Graph {
     name: SITE.name,
     description: SITE.description,
     inLanguage: SITE.language,
+    author: { '@id': AUTHOR_ID },
     publisher: { '@id': ORG_ID },
   };
 
-  const webPage: WebPage | CollectionPage = {
+  const webPage: WebPage | CollectionPage | ProfilePage = {
     '@type': options.pageType ?? 'WebPage',
     '@id': pageId,
     url: canonicalUrl,
@@ -103,6 +133,8 @@ export function buildSchemaGraph(options: SchemaPageOptions): Graph {
     description: options.description,
     inLanguage: SITE.language,
     isPartOf: { '@id': WEBSITE_ID },
+    author: { '@id': AUTHOR_ID },
+    ...(options.pageType === 'ProfilePage' ? { mainEntity: { '@id': AUTHOR_ID } } : {}),
     primaryImageOfPage: {
       '@type': 'ImageObject',
       url: imageUrl,
@@ -116,7 +148,7 @@ export function buildSchemaGraph(options: SchemaPageOptions): Graph {
       : {}),
   };
 
-  const graph: Thing[] = [organization, website, webPage];
+  const graph: Thing[] = [authorPerson, organization, website, webPage];
 
   if (options.breadcrumbs && options.breadcrumbs.length > 0) {
     const breadcrumbList: BreadcrumbList = {
@@ -144,12 +176,7 @@ export function buildSchemaGraph(options: SchemaPageOptions): Graph {
       inLanguage: SITE.language,
       datePublished: options.article.datePublished.toISOString(),
       dateModified: (options.article.dateModified ?? options.article.datePublished).toISOString(),
-      author: {
-        '@type': 'Organization',
-        '@id': ORG_ID,
-        name: options.article.authorName ?? SITE.author.name,
-        url: options.article.authorUrl ?? SITE.author.url,
-      },
+      author: { '@id': AUTHOR_ID },
       publisher: { '@id': ORG_ID },
       ...(options.article.section ? { articleSection: options.article.section } : {}),
       ...(options.article.keywords?.length ? { keywords: options.article.keywords.join(', ') } : {}),

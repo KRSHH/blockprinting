@@ -11,7 +11,7 @@ const guides = defineCollection({
     updatedAt: z.coerce.date().optional(),
     category: z.string().min(2).max(40),
     tags: z.array(z.string()).min(1).max(8),
-    author: z.string().default('Blockprinting Editorial'),
+    author: z.string().default('Jeremy Fritzhand'),
     featured: z.boolean().default(false),
     draft: z.boolean().default(false),
     canonicalUrl: z.url().optional(),

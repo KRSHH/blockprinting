@@ -11,19 +11,19 @@ const guides = (await getCollection('guides', ({ data }) => !data.draft)).sort(
 
 const homeFaqs = [
   {
-    question: 'What is hand block printing?',
+    question: 'Who writes Blockprinting.org?',
     answer:
-      'Hand block printing is a relief textile and paper printing craft in which artisans carve motifs into seasoned hardwood blocks—such as teak or sheesham—dip the carved face into natural dye or pigment paste, and stamp repeating patterns by hand onto woven fabric.',
+      'Blockprinting.org is written by Jeremy Fritzhand, who first arrived in Bagru, Rajasthan in 2010 as a Minerva Fellow from Union College and went on to found Studio Bagru and Fritz MFG to connect traditional Indian hand block printers directly with independent designers worldwide.',
   },
   {
-    question: 'Which fabrics work best for traditional block printing?',
+    question: 'What makes Bagru hand block printing different from Sanganeri or Ajrakh?',
     answer:
-      'Natural cellulose fibers like finely woven cotton (mulmul, cambric, voile), linen, and handloom khadi absorb natural mordants and botanical dyes most evenly, producing crisp outlines and washfast color.',
+      'Bagru is defined by its 400-year-old Chhipa tradition of earthy, natural-ground prints and dabu (mud-resist) printing with clay, lime, and sawdust. Sanganer favors delicate floral motifs on bright white cloth, while Ajrakh from Kutch is a 14-to-16-step double-sided resist-dyeing craft anchored in deep indigo and madder red.',
   },
   {
-    question: 'What is the difference between Bagru, Sanganeri, and Ajrakh block printing?',
+    question: 'How can independent designers source hand block printed fabric ethically?',
     answer:
-      'Bagru printing uses mud-resist (dabu) and earthy iron-alum palettes on natural grounds; Sanganeri printing is known for delicate floral motifs on bright white cloth; and Ajrakh is a double-sided resist-dyeing tradition rooted in Kutch and Sindh using deep indigo and madder red.',
+      'Start by working directly with artisan-owned workshops rather than opaque export intermediaries, respect realistic production lead times around weather and sun-drying, pay fair rates for both carving and printing, and honor artisan design rights—principles developed through Studio Bagru and Mahila Print.',
   },
 ];
 ---
@@ -37,60 +37,63 @@ const homeFaqs = [
 >
   <section class="border-b border-border pb-12">
     <p class="text-xs font-semibold tracking-[0.18em] text-vermilion uppercase">
-      Craft, Heritage &amp; Technique
+      By Jeremy Fritzhand &middot; Bagru, Craft &amp; Ethical Textiles
     </p>
     <h1 class="mt-3 max-w-3xl text-4xl font-bold tracking-tight text-ink sm:text-5xl">
-      The Living Archive of Traditional Hand Block Printing
+      Hand Block Printing, Natural Dyes &amp; the Makers Keeping Craft Alive
     </h1>
     <p class="mt-5 max-w-2xl text-lg leading-relaxed text-ink-muted">
-      Explore carved woodblocks, botanical dye chemistry, regional Indian &amp; global printmaking
-      lineages, and practical workshop guides—engineered for artisans, designers, and textile
-      historians.
+      I first arrived in Bagru, Rajasthan in 2010 as a Minerva Fellow and never really left the
+      printing table behind. After more than a decade working alongside Chhipa printers, teakwood
+      block carvers, and natural dyers through Studio Bagru and Fritz MFG, I built this archive to
+      document the real techniques, chemistry, and economics of hand block printing.
     </p>
     <div class="mt-7 flex flex-wrap gap-4">
       <a
         href="/guides/"
         class="inline-flex items-center rounded-md bg-indigo px-5 py-2.5 text-sm font-semibold text-paper transition-colors hover:bg-indigo-dark"
       >
-        Explore Guides
+        Read the Guides
       </a>
       <a
         href="/about/"
         class="inline-flex items-center rounded-md border border-border bg-paper-alt/60 px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-indigo hover:text-indigo"
       >
-        About Blockprinting.org
+        About Jeremy Fritzhand
       </a>
     </div>
   </section>
 
   <section aria-labelledby="pillars-heading" class="mt-12 grid gap-6 sm:grid-cols-3">
-    <h2 id="pillars-heading" class="sr-only">Core pillars of hand block printing</h2>
+    <h2 id="pillars-heading" class="sr-only">Core focus areas</h2>
     <article class="rounded-lg border border-border bg-paper-alt/40 p-6">
-      <h3 class="text-xl font-bold text-ink">Carved Woodblocks</h3>
+      <h3 class="text-xl font-bold text-ink">Workshop Craft &amp; Dabu</h3>
       <p class="mt-2 text-sm leading-relaxed text-ink-muted">
-        Seasoned teak and pearwood blocks hand-chiseled into outline (<em>rekh</em>), background
-        (<em>datta</em>), and filler (<em>gadh</em>) sets for multi-color registration.
+        First-hand breakdowns of carved teakwood <em>rekh</em>, <em>datta</em>, and <em>gadh</em>{' '}
+        blocks, Bagru mud-resist (<em>dabu</em>), and multi-color hand registration.
       </p>
     </article>
     <article class="rounded-lg border border-border bg-paper-alt/40 p-6">
-      <h3 class="text-xl font-bold text-ink">Natural Dyes &amp; Mordants</h3>
+      <h3 class="text-xl font-bold text-ink">Botanical Dye Chemistry</h3>
       <p class="mt-2 text-sm leading-relaxed text-ink-muted">
-        Fermented indigo vats, madder root reds, pomegranate rind yellows, and iron-alum mordant
-        pastes thickened with guar or tamarind seed gum.
+        Practical notes on <em>harda</em> pre-mordanting, fermented iron-jaggery black, alum and
+        madder reds, natural indigo vats, and guar or tamarind seed thickeners.
       </p>
     </article>
     <article class="rounded-lg border border-border bg-paper-alt/40 p-6">
-      <h3 class="text-xl font-bold text-ink">Regional Traditions</h3>
+      <h3 class="text-xl font-bold text-ink">Ethical Supply Chains</h3>
       <p class="mt-2 text-sm leading-relaxed text-ink-muted">
-        From Bagru mud-resist and Sanganeri florals in Rajasthan to Ajrakh in Kutch and Kalamkari
-        in Andhra Pradesh.
+        Lessons from Studio Bagru, Mahila Print, and Fritz MFG on transparent sourcing, artisan
+        design rights, and building direct bridges without middlemen.
       </p>
     </article>
   </section>
 
   <section aria-labelledby="guides-heading" class="mt-14">
     <div class="flex items-baseline justify-between gap-4">
-      <h2 id="guides-heading" class="text-2xl font-bold text-ink sm:text-3xl">Latest Guides</h2>
+      <h2 id="guides-heading" class="text-2xl font-bold text-ink sm:text-3xl">
+        Field Notes &amp; Guides
+      </h2>
       <a href="/guides/" class="text-sm font-semibold text-indigo hover:underline">
         View all guides &rarr;
       </a>
@@ -121,14 +124,17 @@ const homeFaqs = [
                 <p class="mt-3 text-sm leading-relaxed text-ink-muted">{guide.data.description}</p>
               </div>
               <div class="mt-5 flex items-center justify-between border-t border-border/70 pt-4 text-xs text-ink-muted">
-                <time datetime={guide.data.publishedAt.toISOString()}>
-                  {formatDate(guide.data.publishedAt)}
-                </time>
+                <span>
+                  By <strong class="font-medium text-ink">{guide.data.author}</strong> &middot;{' '}
+                  <time datetime={guide.data.publishedAt.toISOString()}>
+                    {formatDate(guide.data.publishedAt)}
+                  </time>
+                </span>
                 <a
                   href={`/guides/${guide.id}/`}
                   class="font-semibold text-indigo hover:underline"
                 >
-                  Read guide &rarr;
+                  Read &rarr;
                 </a>
               </div>
             </article>

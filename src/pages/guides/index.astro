@@ -15,8 +15,8 @@ const breadcrumbs = [
 ---
 
 <BaseLayout
-  title="Block Printing Guides & Tutorials"
-  description="In-depth guides on traditional hand block printing, woodblock carving, natural dye recipes, mordants, fabric preparation, and studio workflows."
+  title="Block Printing Guides & Field Notes"
+  description="In-depth guides by Jeremy Fritzhand on hand block printing, Bagru dabu mud-resist, natural dyes, mordants, and ethical artisan supply chains."
   image="/og/guides.png"
   pageType="CollectionPage"
   breadcrumbs={breadcrumbs}
@@ -24,10 +24,13 @@ const breadcrumbs = [
   <Breadcrumbs items={breadcrumbs} />
 
   <header class="border-b border-border pb-8">
-    <h1 class="text-4xl font-bold text-ink">Block Printing Guides</h1>
+    <p class="text-xs font-semibold tracking-[0.16em] text-vermilion uppercase">
+      Written by Jeremy Fritzhand
+    </p>
+    <h1 class="mt-2 text-4xl font-bold text-ink">Block Printing Guides &amp; Field Notes</h1>
     <p class="mt-3 max-w-2xl text-base leading-relaxed text-ink-muted">
-      Practical, research-backed references covering every stage of hand block printing—from
-      scouring cloth and carving teakwood blocks to mixing washfast botanical dyes.
+      Practical, workshop-tested references from more than a decade working with Chhipa printers,
+      woodblock carvers, and natural dyers in Bagru, Rajasthan.
     </p>
   </header>
 
@@ -49,9 +52,12 @@ const breadcrumbs = [
               <p class="mt-3 text-sm leading-relaxed text-ink-muted">{guide.data.description}</p>
             </div>
             <div class="mt-5 flex flex-wrap items-center justify-between gap-2 border-t border-border/70 pt-4 text-xs text-ink-muted">
-              <time datetime={guide.data.publishedAt.toISOString()}>
-                Published {formatDate(guide.data.publishedAt)}
-              </time>
+              <span>
+                By <strong class="font-medium text-ink">{guide.data.author}</strong> &middot;{' '}
+                <time datetime={guide.data.publishedAt.toISOString()}>
+                  {formatDate(guide.data.publishedAt)}
+                </time>
+              </span>
               <div class="flex flex-wrap gap-2">
                 {guide.data.tags.slice(0, 3).map((tag) => (
                   <span class="rounded bg-paper-alt px-2 py-0.5 text-ink-muted">#{tag}</span>

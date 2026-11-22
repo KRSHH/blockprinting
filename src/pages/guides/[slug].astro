@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import FaqSection from '../../components/FaqSection.astro';
+import { SITE } from '../../config/site';
 import { estimateReadingTime, formatDate } from '../../lib/seo';
 
 export async function getStaticPaths() {
@@ -64,7 +65,12 @@ const breadcrumbs = [
       </h1>
       <p class="mt-4 text-lg leading-relaxed text-ink-muted">{guide.data.description}</p>
       <div class="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-ink-muted">
-        <span>By <strong class="font-medium text-ink">{guide.data.author}</strong></span>
+        <span>
+          By{' '}
+          <a href="/about/" class="font-semibold text-ink hover:text-indigo hover:underline">
+            {guide.data.author}
+          </a>
+        </span>
         <span aria-hidden="true">&bull;</span>
         <time datetime={guide.data.publishedAt.toISOString()}>
           {formatDate(guide.data.publishedAt)}
@@ -126,6 +132,19 @@ const breadcrumbs = [
         </div>
       )
     }
+
+    <aside
+      aria-label="About the author"
+      class="mt-10 rounded-lg border border-border bg-paper-alt/50 p-6"
+    >
+      <p class="text-xs font-semibold tracking-wider text-vermilion uppercase">Written by</p>
+      <h2 class="mt-1 font-serif text-xl font-bold text-ink">
+        <a href="/about/" class="hover:text-indigo hover:underline">
+          {SITE.author.name}
+        </a>
+      </h2>
+      <p class="mt-2 text-sm leading-relaxed text-ink-muted">{SITE.author.bio}</p>
+    </aside>
 
     {guide.data.faqs && guide.data.faqs.length > 0 && <FaqSection items={guide.data.faqs} />}
   </article>
